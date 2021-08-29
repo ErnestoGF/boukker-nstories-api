@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package stories;
 
-option go_package = "github.com/ErnestoGF/boukker-stories-api/grpc/go/v2/storiespb";
+option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storiespb";
 
 // import "google/protobuf/empty.proto";
 
