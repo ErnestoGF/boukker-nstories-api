@@ -3,7 +3,9 @@ module github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2
 go 1.16
 
 require (
-	github.com/ErnestoGF/boukker-commons/go/v2 v2.1.1
+	github.com/ErnestoGF/boukker-commons/go/v2 v2.1.2-0.20210829201657-1fff29f50344
+	github.com/konsorten/go-windows-terminal-sequences v1.0.1 // indirect
+	github.com/stretchr/objx v0.1.1 // indirect
 	google.golang.org/grpc v1.40.0
 	google.golang.org/protobuf v1.27.1
 )
