@@ -10,7 +10,7 @@ service stories {
   rpc WriteStory(RequestWriteStory) returns (ResponseID);
 }
 
-// ***************** requests ***************** //
+// ================= requests ================= //
 
 // RequestWriteStory ...
 message RequestWriteStory {
@@ -26,19 +26,21 @@ message RequestWriteStory {
   repeated string Characters = 12;
 
   AudienceType Audience = 13;
-  CopyrigthType Copyright = 14;
+  CopyrightType Copyright = 14;
   ClasificationType Clasification = 15;
-  CommentModerationType CommentModeration = 16;
+  CommentsModerationType CommentModeration = 16;
+
+  string Description  = 17;
 }
 
-// ***************** responses ***************** //
+// ================= responses ================= //
 
 // ResponseID ...
 message ResponseID { 
   string ID = 1; 
 }
 
-// ***************** secundarios ***************** //
+// ================= secundarios ================= //
 
 // CategoryInfo ...
 message CategoryInfo {
@@ -74,7 +76,7 @@ message ChapterPosition {
   int32 Position = 2;
 }
 
-// ***************** types ***************** //
+// ================= types ================= //
 
 enum StatusType {
   ST_IGNORE = 0;
@@ -100,8 +102,8 @@ enum AudienceType {
   AT_ADULT = 3;
 }
 
-// CopyrigthType ...
-enum CopyrigthType {
+// CopyrightType ...
+enum CopyrightType {
   CRT_IGNORE = 0;
   CRT_ALL_RIGHTS_RESERVED = 1;
   CRT_PUBLIC_DOMAIN = 2;
@@ -116,11 +118,12 @@ enum CopyrigthType {
 // ClasificationType ...
 enum ClasificationType {
   CT_IGNORE = 0;
-  CT_ALl = 1;
+  CT_ALL = 1;
+  CT_IMAGES_LANGUAGE_VIOLENCE_AND_SEX = 2;
 }
 
-// CommentModerationType ...
-enum CommentModerationType {
+// CommentsModerationType ...
+enum CommentsModerationType {
   CMT_IGNORE = 0;
   CMT_NONE = 1;
   CMT_MANUAL = 2;
