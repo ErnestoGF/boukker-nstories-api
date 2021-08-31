@@ -16,7 +16,7 @@ service stories {
 message RequestWriteStory {
   string Title = 2;
   string Author = 3;
-  bool IsOriginal = 4;
+  bool IsMy = 4;
   repeated string Tags = 5;
   string CategoryID = 6;
   string LanguageID = 7;

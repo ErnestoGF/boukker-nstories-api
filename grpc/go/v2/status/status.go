@@ -143,7 +143,7 @@ var (
 	StatusErrorValidateTokenCover = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateTokenCover,
-		Message:  "token cover is invalid",
+		Message:  "token cover is required or invalid",
 	}
 	// StatusErrorValidateDescription ...
 	StatusErrorValidateDescription = &commonsStatus.Status{
