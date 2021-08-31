@@ -43,6 +43,8 @@ const (
 	CodeErrorValidateTokenCover
 	// CodeErrorValidateDescription ...
 	CodeErrorValidateDescription
+	// CodeErrorValidateCheckLanguageOnIA ...
+	CodeErrorValidateCheckLanguageOnIA
 )
 
 var (
@@ -151,6 +153,12 @@ var (
 		Code:     CodeErrorValidateDescription,
 		Message:  "the number the characters allowed for the description is between 1 and 250",
 	}
+	// StatusErrorValidateCheckLanguageOnIA ...
+	StatusErrorValidateCheckLanguageOnIA = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateDescription,
+		Message:  "the language does not match the text",
+	}
 )
 var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
@@ -174,6 +182,7 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateTitle:              StatusErrorValidateTitle,
 	CodeErrorValidateTokenCover:         StatusErrorValidateTokenCover,
 	CodeErrorValidateDescription:        StatusErrorValidateDescription,
+	CodeErrorValidateCheckLanguageOnIA:  StatusErrorValidateCheckLanguageOnIA,
 }
 
 // FromCode ...
