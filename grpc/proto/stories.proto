@@ -28,7 +28,7 @@ message RequestWriteStory {
   AudienceType Audience = 13;
   CopyrightType Copyright = 14;
   ClasificationType Clasification = 15;
-  CommentsModerationType CommentModeration = 16;
+  CommentModerationType CommentsModeration = 16;
 
   string Description  = 17;
 }
@@ -122,8 +122,8 @@ enum ClasificationType {
   CT_IMAGES_LANGUAGE_VIOLENCE_AND_SEX = 2;
 }
 
-// CommentsModerationType ...
-enum CommentsModerationType {
+// CommentModerationType ...
+enum CommentModerationType {
   CMT_IGNORE = 0;
   CMT_NONE = 1;
   CMT_MANUAL = 2;
