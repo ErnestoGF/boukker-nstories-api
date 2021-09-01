@@ -8,12 +8,16 @@ import (
 const (
 	// CodeStoryNotFound ...
 	CodeStoryNotFound commonsStatus.Code = iota + 10000
-
 	// CodeChapterNotFound ...
 	CodeChapterNotFound
 
 	// CodeErrorUserLoggedWrong ...
 	CodeErrorUserLoggedWrong
+
+	// CodeErrorIDRequired ...
+	CodeErrorIDRequired
+
+	// ================ validation story ================ //
 
 	// CodeErrorValidateAudience ...
 	CodeErrorValidateAudience
@@ -45,6 +49,13 @@ const (
 	CodeErrorValidateDescription
 	// CodeErrorValidateCheckLanguageOnIA ...
 	CodeErrorValidateCheckLanguageOnIA
+
+	// ================ validation chapter ================ //
+
+	// CodeErrorValidateContent ...
+	CodeErrorValidateContent
+	// CodeErrorValidateStoryID ...
+	CodeErrorValidateStoryID
 )
 
 var (
@@ -67,6 +78,13 @@ var (
 		Message:  "user not login or user id incorrect",
 	}
 
+	// StatusErrorIDRequired ...
+	StatusErrorIDRequired = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorIDRequired,
+		Message:  "id is required",
+	}
+
 	// ================ validation story ================ //
 
 	// StatusErrorValidateAudience ...
@@ -85,7 +103,7 @@ var (
 	StatusErrorValidateCharacter = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateCharacter,
-		Message:  "the number the characters allowed for the character name is between 1 and 50",
+		Message:  "the number the characters allowed for the character name is between 1 and 150",
 	}
 	// StatusErrorValidateClasification ...
 	StatusErrorValidateClasification = &commonsStatus.Status{
@@ -109,7 +127,7 @@ var (
 	StatusErrorValidateAuthor = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateAuthor,
-		Message:  "author is required because story no is original",
+		Message:  "author is required because story no is original(max number of characters is 150)",
 	}
 	// StatusErrorValidateLanguageID ...
 	StatusErrorValidateLanguageID = &commonsStatus.Status{
@@ -127,13 +145,13 @@ var (
 	StatusErrorValidateTags = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateTags,
-		Message:  "tags length allowed is between 1 and 20",
+		Message:  "tags length allowed is between 1 and 50",
 	}
 	// StatusErrorValidateTag ...
 	StatusErrorValidateTag = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateTag,
-		Message:  "the number the characters allowed for the tag name is between 1 and 50",
+		Message:  "the number the characters allowed for the tag name is between 1 and 80",
 	}
 	// StatusErrorValidateTitle ...
 	StatusErrorValidateTitle = &commonsStatus.Status{
@@ -151,13 +169,29 @@ var (
 	StatusErrorValidateDescription = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateDescription,
-		Message:  "the number the characters allowed for the description is between 1 and 250",
+		Message:  "the number the characters allowed for the description is between 60 and 2000",
 	}
 	// StatusErrorValidateCheckLanguageOnIA ...
 	StatusErrorValidateCheckLanguageOnIA = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
-		Code:     CodeErrorValidateDescription,
-		Message:  "the language does not match the text",
+		Code:     CodeErrorValidateCheckLanguageOnIA,
+		Message:  "failed check the language-text on ia",
+	}
+
+	// ================ validation chapter ================ //
+
+	// StatusErrorValidateContent ...
+	StatusErrorValidateContent = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateContent,
+		Message:  "the number the characters allowed for the description is between 60 and 100000",
+	}
+
+	// StatusErrorValidateStoryID ...
+	StatusErrorValidateStoryID = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateStoryID,
+		Message:  "story id is required",
 	}
 )
 var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
@@ -166,7 +200,9 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeChapterNotFound:      StatusChapterNotFound,
 	CodeErrorUserLoggedWrong: StatusErrorUserLoggedWrong,
 
-	// ==============================
+	CodeErrorIDRequired: StatusErrorIDRequired,
+
+	// ================ validation story ================ //
 
 	CodeErrorValidateAudience:           StatusErrorValidateAudience,
 	CodeErrorValidateCategoryID:         StatusErrorValidateCategoryID,
@@ -183,6 +219,11 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateTokenCover:         StatusErrorValidateTokenCover,
 	CodeErrorValidateDescription:        StatusErrorValidateDescription,
 	CodeErrorValidateCheckLanguageOnIA:  StatusErrorValidateCheckLanguageOnIA,
+
+	// ================ validation chapter ================ //
+
+	CodeErrorValidateContent: StatusErrorValidateContent,
+	CodeErrorValidateStoryID: StatusErrorValidateStoryID,
 }
 
 // FromCode ...

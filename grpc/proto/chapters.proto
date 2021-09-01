@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package stories;
+
+option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storiespb";
+
+import "commons.proto";
+
+
+// ================= requests ================= //
+
+// RequestWriteChapter ...
+message RequestWriteChapter {
+  string Title = 1;
+  string Content = 2;
+  string TokenCover = 3;
+  StatusType Status = 4;
+  bool IsEnd = 5;
+
+  string StoryID = 6;
+}
+
+// ================= responses ================= //
+
