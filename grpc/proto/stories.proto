@@ -4,12 +4,20 @@ package stories;
 
 option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storiespb";
 
+import "google/protobuf/empty.proto";
+
 import "commons.proto";
 import "chapters.proto";
 
+
 service stories {
+  // ================= stories ================= //
   rpc WriteStory(RequestWriteStory) returns (ResponseID);
+  rpc ChangeStoryStatus(RequestChangeStoryStatus) returns (google.protobuf.Empty);
+
+  // ================= chapters ================= //
   rpc WriteChapter(RequestWriteChapter) returns (ResponseID);
+  rpc ChangeChapterStatus(RequestChangeChapterStatus) returns (google.protobuf.Empty);
 }
 
 // ================= requests ================= //
@@ -33,6 +41,11 @@ message RequestWriteStory {
   CommentModerationType CommentsModeration = 16;
 
   string Description  = 17;
+}
+
+message RequestChangeStoryStatus {
+  string ID = 1;
+  StatusType Status = 2;
 }
 
 // ================= responses ================= //

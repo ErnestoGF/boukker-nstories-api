@@ -7,6 +7,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -18,8 +19,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StoriesClient interface {
+	// ================= stories ================= //
 	WriteStory(ctx context.Context, in *RequestWriteStory, opts ...grpc.CallOption) (*ResponseID, error)
+	ChangeStoryStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ================= chapters ================= //
 	WriteChapter(ctx context.Context, in *RequestWriteChapter, opts ...grpc.CallOption) (*ResponseID, error)
+	ChangeChapterStatus(ctx context.Context, in *RequestChangeChapterStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type storiesClient struct {
@@ -39,9 +44,27 @@ func (c *storiesClient) WriteStory(ctx context.Context, in *RequestWriteStory, o
 	return out, nil
 }
 
+func (c *storiesClient) ChangeStoryStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/ChangeStoryStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storiesClient) WriteChapter(ctx context.Context, in *RequestWriteChapter, opts ...grpc.CallOption) (*ResponseID, error) {
 	out := new(ResponseID)
 	err := c.cc.Invoke(ctx, "/stories.stories/WriteChapter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) ChangeChapterStatus(ctx context.Context, in *RequestChangeChapterStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/ChangeChapterStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,8 +75,12 @@ func (c *storiesClient) WriteChapter(ctx context.Context, in *RequestWriteChapte
 // All implementations must embed UnimplementedStoriesServer
 // for forward compatibility
 type StoriesServer interface {
+	// ================= stories ================= //
 	WriteStory(context.Context, *RequestWriteStory) (*ResponseID, error)
+	ChangeStoryStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error)
+	// ================= chapters ================= //
 	WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error)
+	ChangeChapterStatus(context.Context, *RequestChangeChapterStatus) (*emptypb.Empty, error)
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -64,8 +91,14 @@ type UnimplementedStoriesServer struct {
 func (UnimplementedStoriesServer) WriteStory(context.Context, *RequestWriteStory) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WriteStory not implemented")
 }
+func (UnimplementedStoriesServer) ChangeStoryStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeStoryStatus not implemented")
+}
 func (UnimplementedStoriesServer) WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WriteChapter not implemented")
+}
+func (UnimplementedStoriesServer) ChangeChapterStatus(context.Context, *RequestChangeChapterStatus) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeChapterStatus not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -98,6 +131,24 @@ func _Stories_WriteStory_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_ChangeStoryStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestChangeStoryStatus)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).ChangeStoryStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/ChangeStoryStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).ChangeStoryStatus(ctx, req.(*RequestChangeStoryStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Stories_WriteChapter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestWriteChapter)
 	if err := dec(in); err != nil {
@@ -116,6 +167,24 @@ func _Stories_WriteChapter_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_ChangeChapterStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestChangeChapterStatus)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).ChangeChapterStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/ChangeChapterStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).ChangeChapterStatus(ctx, req.(*RequestChangeChapterStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Stories_ServiceDesc is the grpc.ServiceDesc for Stories service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -128,8 +197,16 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Stories_WriteStory_Handler,
 		},
 		{
+			MethodName: "ChangeStoryStatus",
+			Handler:    _Stories_ChangeStoryStatus_Handler,
+		},
+		{
 			MethodName: "WriteChapter",
 			Handler:    _Stories_WriteChapter_Handler,
+		},
+		{
+			MethodName: "ChangeChapterStatus",
+			Handler:    _Stories_ChangeChapterStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
