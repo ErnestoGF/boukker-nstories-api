@@ -43,9 +43,11 @@ message RequestWriteStory {
   string Description  = 17;
 }
 
+// RequestChangeStoryStatus ...
 message RequestChangeStoryStatus {
   string ID = 1;
-  StatusType Status = 2;
+  repeated string ChaptersID = 2;
+  StatusType Status = 3;
 }
 
 // ================= responses ================= //

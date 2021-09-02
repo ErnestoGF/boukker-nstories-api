@@ -20,8 +20,10 @@ message RequestWriteChapter {
   string StoryID = 6;
 }
 
+// RequestChangeChapterStatus ...
 message RequestChangeChapterStatus{
-  StatusType Status = 1;
+  string ID = 1;
+  StatusType Status = 2;
 }
 
 // ================= responses ================= //

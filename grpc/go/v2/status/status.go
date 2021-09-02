@@ -47,6 +47,8 @@ const (
 	CodeErrorValidateTokenCover
 	// CodeErrorValidateDescription ...
 	CodeErrorValidateDescription
+	// CodeErrorValidateID ...
+	CodeErrorValidateID
 	// CodeErrorValidateCheckLanguageOnIA ...
 	CodeErrorValidateCheckLanguageOnIA
 
@@ -171,6 +173,12 @@ var (
 		Code:     CodeErrorValidateDescription,
 		Message:  "the number the characters allowed for the description is between 60 and 2000",
 	}
+	// StatusErrorValidateDescription ...
+	StatusErrorValidateID = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateID,
+		Message:  "id is required",
+	}
 	// StatusErrorValidateCheckLanguageOnIA ...
 	StatusErrorValidateCheckLanguageOnIA = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
@@ -218,6 +226,7 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateTitle:              StatusErrorValidateTitle,
 	CodeErrorValidateTokenCover:         StatusErrorValidateTokenCover,
 	CodeErrorValidateDescription:        StatusErrorValidateDescription,
+	CodeErrorValidateID:                 StatusErrorValidateID,
 	CodeErrorValidateCheckLanguageOnIA:  StatusErrorValidateCheckLanguageOnIA,
 
 	// ================ validation chapter ================ //
