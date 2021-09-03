@@ -12,12 +12,27 @@ import "chapters.proto";
 
 service stories {
   // ================= stories ================= //
+
+  // WriteStory ...
   rpc WriteStory(RequestWriteStory) returns (ResponseID);
+
+  // RemoveStory ...
+  rpc RemoveStory(RequestRemoveStory) returns (google.protobuf.Empty);
+
+  // ChangeStoryStatus cambia el estado de la historia y alguno de sus capitulos.
+  // 
+  // Acciones:
+  // * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
+  // * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiaria el de la historia.
   rpc ChangeStoryStatus(RequestChangeStoryStatus) returns (google.protobuf.Empty);
 
   // ================= chapters ================= //
+
+  // WriteChapter ...
   rpc WriteChapter(RequestWriteChapter) returns (ResponseID);
-  rpc ChangeChapterStatus(RequestChangeChapterStatus) returns (google.protobuf.Empty);
+  
+  // RemoveChapter ...
+  rpc RemoveChapter(RequestRemoveChapter) returns (google.protobuf.Empty);
 }
 
 // ================= requests ================= //
@@ -48,6 +63,11 @@ message RequestChangeStoryStatus {
   string ID = 1;
   repeated string ChaptersID = 2;
   StatusType Status = 3;
+}
+
+// RequestRemoveStory ...
+message RequestRemoveStory{
+  string ID = 1;
 }
 
 // ================= responses ================= //

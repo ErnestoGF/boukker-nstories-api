@@ -19,12 +19,20 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StoriesClient interface {
-	// ================= stories ================= //
+	// WriteStory ...
 	WriteStory(ctx context.Context, in *RequestWriteStory, opts ...grpc.CallOption) (*ResponseID, error)
+	// RemoveStory ...
+	RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ChangeStoryStatus cambia el estado de la historia y alguno de sus capitulos.
+	//
+	// Acciones:
+	// * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
+	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiaria el de la historia.
 	ChangeStoryStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// ================= chapters ================= //
+	// WriteChapter ...
 	WriteChapter(ctx context.Context, in *RequestWriteChapter, opts ...grpc.CallOption) (*ResponseID, error)
-	ChangeChapterStatus(ctx context.Context, in *RequestChangeChapterStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// RemoveChapter ...
+	RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type storiesClient struct {
@@ -38,6 +46,15 @@ func NewStoriesClient(cc grpc.ClientConnInterface) StoriesClient {
 func (c *storiesClient) WriteStory(ctx context.Context, in *RequestWriteStory, opts ...grpc.CallOption) (*ResponseID, error) {
 	out := new(ResponseID)
 	err := c.cc.Invoke(ctx, "/stories.stories/WriteStory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/RemoveStory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,9 +79,9 @@ func (c *storiesClient) WriteChapter(ctx context.Context, in *RequestWriteChapte
 	return out, nil
 }
 
-func (c *storiesClient) ChangeChapterStatus(ctx context.Context, in *RequestChangeChapterStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *storiesClient) RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/stories.stories/ChangeChapterStatus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/stories.stories/RemoveChapter", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,12 +92,20 @@ func (c *storiesClient) ChangeChapterStatus(ctx context.Context, in *RequestChan
 // All implementations must embed UnimplementedStoriesServer
 // for forward compatibility
 type StoriesServer interface {
-	// ================= stories ================= //
+	// WriteStory ...
 	WriteStory(context.Context, *RequestWriteStory) (*ResponseID, error)
+	// RemoveStory ...
+	RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error)
+	// ChangeStoryStatus cambia el estado de la historia y alguno de sus capitulos.
+	//
+	// Acciones:
+	// * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
+	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiaria el de la historia.
 	ChangeStoryStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error)
-	// ================= chapters ================= //
+	// WriteChapter ...
 	WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error)
-	ChangeChapterStatus(context.Context, *RequestChangeChapterStatus) (*emptypb.Empty, error)
+	// RemoveChapter ...
+	RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error)
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -91,14 +116,17 @@ type UnimplementedStoriesServer struct {
 func (UnimplementedStoriesServer) WriteStory(context.Context, *RequestWriteStory) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WriteStory not implemented")
 }
+func (UnimplementedStoriesServer) RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveStory not implemented")
+}
 func (UnimplementedStoriesServer) ChangeStoryStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeStoryStatus not implemented")
 }
 func (UnimplementedStoriesServer) WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WriteChapter not implemented")
 }
-func (UnimplementedStoriesServer) ChangeChapterStatus(context.Context, *RequestChangeChapterStatus) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangeChapterStatus not implemented")
+func (UnimplementedStoriesServer) RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveChapter not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -127,6 +155,24 @@ func _Stories_WriteStory_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StoriesServer).WriteStory(ctx, req.(*RequestWriteStory))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_RemoveStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestRemoveStory)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).RemoveStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/RemoveStory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).RemoveStory(ctx, req.(*RequestRemoveStory))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -167,20 +213,20 @@ func _Stories_WriteChapter_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Stories_ChangeChapterStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestChangeChapterStatus)
+func _Stories_RemoveChapter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestRemoveChapter)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StoriesServer).ChangeChapterStatus(ctx, in)
+		return srv.(StoriesServer).RemoveChapter(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stories.stories/ChangeChapterStatus",
+		FullMethod: "/stories.stories/RemoveChapter",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoriesServer).ChangeChapterStatus(ctx, req.(*RequestChangeChapterStatus))
+		return srv.(StoriesServer).RemoveChapter(ctx, req.(*RequestRemoveChapter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -197,6 +243,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Stories_WriteStory_Handler,
 		},
 		{
+			MethodName: "RemoveStory",
+			Handler:    _Stories_RemoveStory_Handler,
+		},
+		{
 			MethodName: "ChangeStoryStatus",
 			Handler:    _Stories_ChangeStoryStatus_Handler,
 		},
@@ -205,8 +255,8 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Stories_WriteChapter_Handler,
 		},
 		{
-			MethodName: "ChangeChapterStatus",
-			Handler:    _Stories_ChangeChapterStatus_Handler,
+			MethodName: "RemoveChapter",
+			Handler:    _Stories_RemoveChapter_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
