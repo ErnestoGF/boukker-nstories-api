@@ -86,8 +86,9 @@ message RequestChangeCover {
     STORY = 1;
     CHAPTER = 2;
   }
-  Dst Destination = 1;
-  string TokenCover = 2;
+  string ID = 1;
+  string Token = 2;
+  Dst Destination = 3;
 }
 
 // ================= responses ================= //

@@ -51,6 +51,8 @@ const (
 	CodeErrorValidateID
 	// CodeErrorValidateCheckLanguageOnIA ...
 	CodeErrorValidateCheckLanguageOnIA
+	// CodeErrorValidateDst ...
+	CodeErrorValidateDst
 
 	// ================ validation chapter ================ //
 
@@ -185,6 +187,12 @@ var (
 		Code:     CodeErrorValidateCheckLanguageOnIA,
 		Message:  "failed check the language-text on ia",
 	}
+	// StatusErrorValidateDst ...
+	StatusErrorValidateDst = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateDestination,
+		Message:  "destination is invalid",
+	}
 
 	// ================ validation chapter ================ //
 
@@ -228,6 +236,7 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateDescription:        StatusErrorValidateDescription,
 	CodeErrorValidateID:                 StatusErrorValidateID,
 	CodeErrorValidateCheckLanguageOnIA:  StatusErrorValidateCheckLanguageOnIA,
+	CodeErrorValidateDst:                StatusErrorValidateDst,
 
 	// ================ validation chapter ================ //
 
