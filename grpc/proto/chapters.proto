@@ -25,5 +25,10 @@ message RequestRemoveChapter{
   string ID = 1;
 }
 
+// RequestRemoveChapter ...
+message RequestRemoveChapterCover{
+  string ID = 1;
+}
+
 // ================= responses ================= //
 

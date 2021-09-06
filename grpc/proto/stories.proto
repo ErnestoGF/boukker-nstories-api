@@ -19,12 +19,17 @@ service stories {
   // RemoveStory ...
   rpc RemoveStory(RequestRemoveStory) returns (google.protobuf.Empty);
 
-  // ChangeStoryStatus cambia el estado de la historia y alguno de sus capitulos.
+  // === commons story and chapters === //
+
+  // ChangeStatus cambia el estado de la historia y/o alguno de sus capitulos.
   // 
   // Acciones:
   // * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
-  // * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiaria el de la historia.
-  rpc ChangeStoryStatus(RequestChangeStoryStatus) returns (google.protobuf.Empty);
+  // * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
+  rpc ChangeStatus(RequestChangeStoryStatus) returns (google.protobuf.Empty);
+
+  // ChangeCover cambia el cover a  la historia o al avatar segun los datos de la peticion
+  rpc ChangeCover(RequestChangeCover) returns (google.protobuf.Empty);
 
   // ================= chapters ================= //
 
@@ -33,6 +38,10 @@ service stories {
   
   // RemoveChapter ...
   rpc RemoveChapter(RequestRemoveChapter) returns (google.protobuf.Empty);
+
+  // RemoveChapterCover ...
+  rpc RemoveChapterCover(RequestRemoveChapterCover) returns (google.protobuf.Empty);
+
 }
 
 // ================= requests ================= //
@@ -68,6 +77,17 @@ message RequestChangeStoryStatus {
 // RequestRemoveStory ...
 message RequestRemoveStory{
   string ID = 1;
+}
+
+// RequestChangeCover cambiar el cover de la historia o el capitulo segun el destino del cover
+message RequestChangeCover {
+  enum Dst {
+    IGNORE = 0;
+    STORY = 1;
+    CHAPTER = 2;
+  }
+  Dst Destination = 1;
+  string TokenCover = 2;
 }
 
 // ================= responses ================= //

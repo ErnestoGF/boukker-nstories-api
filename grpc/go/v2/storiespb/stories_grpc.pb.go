@@ -23,16 +23,20 @@ type StoriesClient interface {
 	WriteStory(ctx context.Context, in *RequestWriteStory, opts ...grpc.CallOption) (*ResponseID, error)
 	// RemoveStory ...
 	RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// ChangeStoryStatus cambia el estado de la historia y alguno de sus capitulos.
+	// ChangeStatus cambia el estado de la historia y/o alguno de sus capitulos.
 	//
 	// Acciones:
 	// * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
-	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiaria el de la historia.
-	ChangeStoryStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
+	ChangeStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ChangeCover cambia el cover a  la historia o al avatar segun los datos de la peticion
+	ChangeCover(ctx context.Context, in *RequestChangeCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// WriteChapter ...
 	WriteChapter(ctx context.Context, in *RequestWriteChapter, opts ...grpc.CallOption) (*ResponseID, error)
 	// RemoveChapter ...
 	RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// RemoveChapterCover ...
+	RemoveChapterCover(ctx context.Context, in *RequestRemoveChapterCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type storiesClient struct {
@@ -61,9 +65,18 @@ func (c *storiesClient) RemoveStory(ctx context.Context, in *RequestRemoveStory,
 	return out, nil
 }
 
-func (c *storiesClient) ChangeStoryStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *storiesClient) ChangeStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/stories.stories/ChangeStoryStatus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/stories.stories/ChangeStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) ChangeCover(ctx context.Context, in *RequestChangeCover, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/ChangeCover", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -88,6 +101,15 @@ func (c *storiesClient) RemoveChapter(ctx context.Context, in *RequestRemoveChap
 	return out, nil
 }
 
+func (c *storiesClient) RemoveChapterCover(ctx context.Context, in *RequestRemoveChapterCover, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/RemoveChapterCover", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoriesServer is the server API for Stories service.
 // All implementations must embed UnimplementedStoriesServer
 // for forward compatibility
@@ -96,16 +118,20 @@ type StoriesServer interface {
 	WriteStory(context.Context, *RequestWriteStory) (*ResponseID, error)
 	// RemoveStory ...
 	RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error)
-	// ChangeStoryStatus cambia el estado de la historia y alguno de sus capitulos.
+	// ChangeStatus cambia el estado de la historia y/o alguno de sus capitulos.
 	//
 	// Acciones:
 	// * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
-	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiaria el de la historia.
-	ChangeStoryStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error)
+	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
+	ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error)
+	// ChangeCover cambia el cover a  la historia o al avatar segun los datos de la peticion
+	ChangeCover(context.Context, *RequestChangeCover) (*emptypb.Empty, error)
 	// WriteChapter ...
 	WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error)
 	// RemoveChapter ...
 	RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error)
+	// RemoveChapterCover ...
+	RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error)
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -119,14 +145,20 @@ func (UnimplementedStoriesServer) WriteStory(context.Context, *RequestWriteStory
 func (UnimplementedStoriesServer) RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveStory not implemented")
 }
-func (UnimplementedStoriesServer) ChangeStoryStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangeStoryStatus not implemented")
+func (UnimplementedStoriesServer) ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatus not implemented")
+}
+func (UnimplementedStoriesServer) ChangeCover(context.Context, *RequestChangeCover) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeCover not implemented")
 }
 func (UnimplementedStoriesServer) WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WriteChapter not implemented")
 }
 func (UnimplementedStoriesServer) RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveChapter not implemented")
+}
+func (UnimplementedStoriesServer) RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveChapterCover not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -177,20 +209,38 @@ func _Stories_RemoveStory_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Stories_ChangeStoryStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Stories_ChangeStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestChangeStoryStatus)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StoriesServer).ChangeStoryStatus(ctx, in)
+		return srv.(StoriesServer).ChangeStatus(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/stories.stories/ChangeStoryStatus",
+		FullMethod: "/stories.stories/ChangeStatus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoriesServer).ChangeStoryStatus(ctx, req.(*RequestChangeStoryStatus))
+		return srv.(StoriesServer).ChangeStatus(ctx, req.(*RequestChangeStoryStatus))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_ChangeCover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestChangeCover)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).ChangeCover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/ChangeCover",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).ChangeCover(ctx, req.(*RequestChangeCover))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -231,6 +281,24 @@ func _Stories_RemoveChapter_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_RemoveChapterCover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestRemoveChapterCover)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).RemoveChapterCover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/RemoveChapterCover",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).RemoveChapterCover(ctx, req.(*RequestRemoveChapterCover))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Stories_ServiceDesc is the grpc.ServiceDesc for Stories service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -247,8 +315,12 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Stories_RemoveStory_Handler,
 		},
 		{
-			MethodName: "ChangeStoryStatus",
-			Handler:    _Stories_ChangeStoryStatus_Handler,
+			MethodName: "ChangeStatus",
+			Handler:    _Stories_ChangeStatus_Handler,
+		},
+		{
+			MethodName: "ChangeCover",
+			Handler:    _Stories_ChangeCover_Handler,
 		},
 		{
 			MethodName: "WriteChapter",
@@ -257,6 +329,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveChapter",
 			Handler:    _Stories_RemoveChapter_Handler,
+		},
+		{
+			MethodName: "RemoveChapterCover",
+			Handler:    _Stories_RemoveChapterCover_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
