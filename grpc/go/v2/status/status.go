@@ -190,7 +190,7 @@ var (
 	// StatusErrorValidateDst ...
 	StatusErrorValidateDst = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
-		Code:     CodeErrorValidateDestination,
+		Code:     CodeErrorValidateDst,
 		Message:  "destination is invalid",
 	}
 
