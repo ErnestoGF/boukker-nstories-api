@@ -30,5 +30,10 @@ message RequestRemoveChapterCover{
   string ID = 1;
 }
 
+// RequestRemoveChapter ...
+message RequestReorderChapters{
+ repeated Order Items = 1;
+}
+
 // ================= responses ================= //
 

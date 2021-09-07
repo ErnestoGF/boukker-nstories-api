@@ -33,6 +33,8 @@ type StoriesClient interface {
 	ChangeCover(ctx context.Context, in *RequestChangeCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// WriteChapter ...
 	WriteChapter(ctx context.Context, in *RequestWriteChapter, opts ...grpc.CallOption) (*ResponseID, error)
+	// ReorderChapters ...
+	ReorderChapters(ctx context.Context, in *RequestReorderChapters, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RemoveChapter ...
 	RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RemoveChapterCover ...
@@ -92,6 +94,15 @@ func (c *storiesClient) WriteChapter(ctx context.Context, in *RequestWriteChapte
 	return out, nil
 }
 
+func (c *storiesClient) ReorderChapters(ctx context.Context, in *RequestReorderChapters, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/ReorderChapters", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storiesClient) RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/stories.stories/RemoveChapter", in, out, opts...)
@@ -128,6 +139,8 @@ type StoriesServer interface {
 	ChangeCover(context.Context, *RequestChangeCover) (*emptypb.Empty, error)
 	// WriteChapter ...
 	WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error)
+	// ReorderChapters ...
+	ReorderChapters(context.Context, *RequestReorderChapters) (*emptypb.Empty, error)
 	// RemoveChapter ...
 	RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error)
 	// RemoveChapterCover ...
@@ -153,6 +166,9 @@ func (UnimplementedStoriesServer) ChangeCover(context.Context, *RequestChangeCov
 }
 func (UnimplementedStoriesServer) WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WriteChapter not implemented")
+}
+func (UnimplementedStoriesServer) ReorderChapters(context.Context, *RequestReorderChapters) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReorderChapters not implemented")
 }
 func (UnimplementedStoriesServer) RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveChapter not implemented")
@@ -263,6 +279,24 @@ func _Stories_WriteChapter_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_ReorderChapters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestReorderChapters)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).ReorderChapters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/ReorderChapters",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).ReorderChapters(ctx, req.(*RequestReorderChapters))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Stories_RemoveChapter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestRemoveChapter)
 	if err := dec(in); err != nil {
@@ -325,6 +359,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "WriteChapter",
 			Handler:    _Stories_WriteChapter_Handler,
+		},
+		{
+			MethodName: "ReorderChapters",
+			Handler:    _Stories_ReorderChapters_Handler,
 		},
 		{
 			MethodName: "RemoveChapter",

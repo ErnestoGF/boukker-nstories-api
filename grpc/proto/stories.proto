@@ -36,6 +36,9 @@ service stories {
   // WriteChapter ...
   rpc WriteChapter(RequestWriteChapter) returns (ResponseID);
   
+  // ReorderChapters ...
+  rpc ReorderChapters(RequestReorderChapters) returns (google.protobuf.Empty);
+
   // RemoveChapter ...
   rpc RemoveChapter(RequestRemoveChapter) returns (google.protobuf.Empty);
 

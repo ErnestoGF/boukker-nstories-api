@@ -15,7 +15,7 @@ message ResponseID {
   string ID = 1; 
 }
 
-// ================= secundarios ================= //
+// ================= info ================= //
 
 // CategoryInfo ...
 message CategoryInfo {
@@ -45,12 +45,19 @@ message TotalReactionInfo {
   int64 Total = 2;
 }
 
-// ChapterPosition ...
+// ChapterInfo ...
 message ChapterInfo {
   string ID = 1;
   int32 Position = 2;
-  bool IsDescription = 3;
-  StatusType Status = 4;
+  StatusType Status = 3;
+}
+
+// ================= request models ================= //
+
+// Order ...
+message Order {
+  string ID = 1;
+  int32 Position = 2; 
 }
 
 // ================= types ================= //
