@@ -60,6 +60,16 @@ const (
 	CodeErrorValidateContent
 	// CodeErrorValidateStoryID ...
 	CodeErrorValidateStoryID
+	// CodeErrorValidatePositionInvalid ...
+	CodeErrorValidatePositionInvalid
+	// CodeErrorValidateChaptersOrderNotConsecutive
+	CodeErrorValidateChaptersOrderNotConsecutive
+	// CodeErrorValidateAllIDRequired ...
+	CodeErrorValidateAllIDRequired
+	// CodeErrorValidateNoneIDMatchChaptersID ninguno de los id de capitulos en la request conciden con los capitulos de la historia
+	CodeErrorValidateNoneIDMatchChaptersID
+	// CodeErrorValidateItemsRequired ...
+	CodeErrorValidateItemsRequired
 )
 
 var (
@@ -209,6 +219,36 @@ var (
 		Code:     CodeErrorValidateStoryID,
 		Message:  "story id is required",
 	}
+	// StatusErrorValidatePositionInvalid ...
+	StatusErrorValidatePositionInvalid = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidatePositionInvalid,
+		Message:  "position is less than 1",
+	}
+	// StatusErrorValidateChaptersOrderNotConsecutive ...
+	StatusErrorValidateChaptersOrderNotConsecutive = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateChaptersOrderNotConsecutive,
+		Message:  "the order of the chapters is not consecutive",
+	}
+	// StatusErrorValidateAllIDRequired ...
+	StatusErrorValidateAllIDRequired = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateAllIDRequired,
+		Message:  "all id's are required",
+	}
+	// StatusErrorValidateNoneIDMatchChaptersID ...
+	StatusErrorValidateNoneIDMatchChaptersID = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateNoneIDMatchChaptersID,
+		Message:  "none of the chapter id match any chapter id of the story",
+	}
+	// StatusErrorValidateItemsRequired ...
+	StatusErrorValidateItemsRequired = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateItemsRequired,
+		Message:  "items are required",
+	}
 )
 var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
@@ -240,8 +280,13 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
 	// ================ validation chapter ================ //
 
-	CodeErrorValidateContent: StatusErrorValidateContent,
-	CodeErrorValidateStoryID: StatusErrorValidateStoryID,
+	CodeErrorValidateContent:                     StatusErrorValidateContent,
+	CodeErrorValidateStoryID:                     StatusErrorValidateStoryID,
+	CodeErrorValidatePositionInvalid:             StatusErrorValidatePositionInvalid,
+	CodeErrorValidateChaptersOrderNotConsecutive: StatusErrorValidateChaptersOrderNotConsecutive,
+	CodeErrorValidateAllIDRequired:               StatusErrorValidateAllIDRequired,
+	CodeErrorValidateNoneIDMatchChaptersID:       StatusErrorValidateNoneIDMatchChaptersID,
+	CodeErrorValidateItemsRequired:               StatusErrorValidateItemsRequired,
 }
 
 // FromCode ...
