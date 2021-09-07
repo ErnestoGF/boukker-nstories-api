@@ -32,7 +32,8 @@ message RequestRemoveChapterCover{
 
 // RequestRemoveChapter ...
 message RequestReorderChapters{
- repeated Order Items = 1;
+  string StoryID = 1;
+  repeated Order Items = 2;
 }
 
 // ================= responses ================= //
