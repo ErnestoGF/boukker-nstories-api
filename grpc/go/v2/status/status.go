@@ -214,7 +214,7 @@ var (
 	StatusErrorValidateContent = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateContent,
-		Message:  "the number the characters allowed for the description is between 60 and 100000",
+		Message:  "the number the characters allowed for the description is between 60 and 2000",
 	}
 	// StatusErrorValidateStoryID ...
 	StatusErrorValidateStoryID = &commonsStatus.Status{
@@ -226,7 +226,7 @@ var (
 	StatusErrorValidateMaxChaptersPerStory = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateMaxChaptersPerStory,
-		Message:  "maximum number of chapters per story is 2500",
+		Message:  "maximum number of chapters per story is 200",
 	}
 	// StatusErrorValidateStoryHasEnd ...
 	StatusErrorValidateStoryHasEnd = &commonsStatus.Status{

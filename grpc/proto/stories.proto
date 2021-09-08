@@ -74,19 +74,21 @@ message RequestWriteStory {
 
 // RequestEditStory ...
 message RequestEditStory {
-  string Title = 1;
-  repeated string Tags = 2;
-  string CategoryID = 3;
-  string TokenCover = 4;
+  string ID = 1;
+  
+  string Title = 2;
+  repeated string Tags = 3;
+  string CategoryID = 4;
+  string TokenCover = 5;
 
-  repeated string Characters = 5;
+  repeated string Characters = 6;
 
-  AudienceType Audience = 6;
-  CopyrightType Copyright = 7;
-  ClasificationType Clasification = 8;
-  CommentModerationType CommentsModeration = 9;
+  AudienceType Audience = 7;
+  CopyrightType Copyright = 8;
+  ClasificationType Clasification = 9;
+  CommentModerationType CommentsModeration = 10;
 
-  string Description  = 10;
+  string Description  = 11;
 }
 
 // RequestChangeStoryStatus ...
