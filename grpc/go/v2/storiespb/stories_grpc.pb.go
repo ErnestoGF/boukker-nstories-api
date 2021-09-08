@@ -23,13 +23,15 @@ type StoriesClient interface {
 	WriteStory(ctx context.Context, in *RequestWriteStory, opts ...grpc.CallOption) (*ResponseID, error)
 	// RemoveStory ...
 	RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// ChangeStatus cambia el estado de la historia y/o alguno de sus capitulos.
+	// EditStory actualiza los datos de la historia
+	EditStory(ctx context.Context, in *RequestEditStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
 	// * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
 	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
 	ChangeStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// ChangeCover cambia el cover a  la historia o al avatar segun los datos de la peticion
+	// ChangeCover cambia el cover a  la historia y/o capitulos segun los datos de la peticion
 	ChangeCover(ctx context.Context, in *RequestChangeCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// WriteChapter ...
 	WriteChapter(ctx context.Context, in *RequestWriteChapter, opts ...grpc.CallOption) (*ResponseID, error)
@@ -61,6 +63,15 @@ func (c *storiesClient) WriteStory(ctx context.Context, in *RequestWriteStory, o
 func (c *storiesClient) RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/stories.stories/RemoveStory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) EditStory(ctx context.Context, in *RequestEditStory, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/EditStory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -129,13 +140,15 @@ type StoriesServer interface {
 	WriteStory(context.Context, *RequestWriteStory) (*ResponseID, error)
 	// RemoveStory ...
 	RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error)
-	// ChangeStatus cambia el estado de la historia y/o alguno de sus capitulos.
+	// EditStory actualiza los datos de la historia
+	EditStory(context.Context, *RequestEditStory) (*emptypb.Empty, error)
+	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
 	// * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
 	// * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
 	ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error)
-	// ChangeCover cambia el cover a  la historia o al avatar segun los datos de la peticion
+	// ChangeCover cambia el cover a  la historia y/o capitulos segun los datos de la peticion
 	ChangeCover(context.Context, *RequestChangeCover) (*emptypb.Empty, error)
 	// WriteChapter ...
 	WriteChapter(context.Context, *RequestWriteChapter) (*ResponseID, error)
@@ -157,6 +170,9 @@ func (UnimplementedStoriesServer) WriteStory(context.Context, *RequestWriteStory
 }
 func (UnimplementedStoriesServer) RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveStory not implemented")
+}
+func (UnimplementedStoriesServer) EditStory(context.Context, *RequestEditStory) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditStory not implemented")
 }
 func (UnimplementedStoriesServer) ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatus not implemented")
@@ -221,6 +237,24 @@ func _Stories_RemoveStory_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StoriesServer).RemoveStory(ctx, req.(*RequestRemoveStory))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_EditStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestEditStory)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).EditStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/EditStory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).EditStory(ctx, req.(*RequestEditStory))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -347,6 +381,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveStory",
 			Handler:    _Stories_RemoveStory_Handler,
+		},
+		{
+			MethodName: "EditStory",
+			Handler:    _Stories_EditStory_Handler,
 		},
 		{
 			MethodName: "ChangeStatus",

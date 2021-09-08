@@ -19,16 +19,19 @@ service stories {
   // RemoveStory ...
   rpc RemoveStory(RequestRemoveStory) returns (google.protobuf.Empty);
 
+  // EditStory actualiza los datos de la historia
+  rpc EditStory(RequestEditStory) returns (google.protobuf.Empty);
+
   // === commons story and chapters === //
 
-  // ChangeStatus cambia el estado de la historia y/o alguno de sus capitulos.
+  // ChangeStatus cambia el estado de la historia y/o capitulos.
   // 
   // Acciones:
   // * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
   // * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
   rpc ChangeStatus(RequestChangeStoryStatus) returns (google.protobuf.Empty);
 
-  // ChangeCover cambia el cover a  la historia o al avatar segun los datos de la peticion
+  // ChangeCover cambia el cover a  la historia y/o capitulos segun los datos de la peticion
   rpc ChangeCover(RequestChangeCover) returns (google.protobuf.Empty);
 
   // ================= chapters ================= //
@@ -51,23 +54,39 @@ service stories {
 
 // RequestWriteStory ...
 message RequestWriteStory {
-  string Title = 2;
-  string Author = 3;
-  bool IsMy = 4;
-  repeated string Tags = 5;
-  string CategoryID = 6;
-  string LanguageID = 7;
-  string TokenCover = 8;
-  // StatusType Status = 9;
+  string Title = 1;
+  string Author = 2;
+  bool IsMy = 3;
+  repeated string Tags = 4;
+  string CategoryID = 5;
+  string LanguageID = 6;
+  string TokenCover = 7;
 
-  repeated string Characters = 12;
+  repeated string Characters = 8;
 
-  AudienceType Audience = 13;
-  CopyrightType Copyright = 14;
-  ClasificationType Clasification = 15;
-  CommentModerationType CommentsModeration = 16;
+  AudienceType Audience = 9;
+  CopyrightType Copyright = 10;
+  ClasificationType Clasification = 11;
+  CommentModerationType CommentsModeration = 12;
 
-  string Description  = 17;
+  string Description  = 13;
+}
+
+// RequestEditStory ...
+message RequestEditStory {
+  string Title = 1;
+  repeated string Tags = 2;
+  string CategoryID = 3;
+  string TokenCover = 4;
+
+  repeated string Characters = 5;
+
+  AudienceType Audience = 6;
+  CopyrightType Copyright = 7;
+  ClasificationType Clasification = 8;
+  CommentModerationType CommentsModeration = 9;
+
+  string Description  = 10;
 }
 
 // RequestChangeStoryStatus ...

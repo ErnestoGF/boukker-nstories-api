@@ -60,6 +60,10 @@ const (
 	CodeErrorValidateContent
 	// CodeErrorValidateStoryID ...
 	CodeErrorValidateStoryID
+	// CodeErrorValidateStoryID ...
+	CodeErrorValidateMaxChaptersPerStory
+	// CodeErrorValidateStoryHasEnd ...
+	CodeErrorValidateStoryHasEnd
 	// CodeErrorValidatePositionInvalid ...
 	CodeErrorValidatePositionInvalid
 	// CodeErrorValidateChaptersOrderNotConsecutive
@@ -212,18 +216,30 @@ var (
 		Code:     CodeErrorValidateContent,
 		Message:  "the number the characters allowed for the description is between 60 and 100000",
 	}
-
 	// StatusErrorValidateStoryID ...
 	StatusErrorValidateStoryID = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateStoryID,
 		Message:  "story id is required",
 	}
+	// StatusErrorValidateMaxChaptersPerStory ...
+	StatusErrorValidateMaxChaptersPerStory = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateMaxChaptersPerStory,
+		Message:  "maximum number of chapters per story is 2500",
+	}
+	// StatusErrorValidateStoryHasEnd ...
+	StatusErrorValidateStoryHasEnd = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateMaxChaptersPerStory,
+		Message:  "the story already has an end",
+	}
+
 	// StatusErrorValidatePositionInvalid ...
 	StatusErrorValidatePositionInvalid = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidatePositionInvalid,
-		Message:  "position is less than 1",
+		Message:  "first position is not 1 or is ivalid",
 	}
 	// StatusErrorValidateChaptersOrderNotConsecutive ...
 	StatusErrorValidateChaptersOrderNotConsecutive = &commonsStatus.Status{
@@ -280,8 +296,11 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
 	// ================ validation chapter ================ //
 
-	CodeErrorValidateContent:                     StatusErrorValidateContent,
-	CodeErrorValidateStoryID:                     StatusErrorValidateStoryID,
+	CodeErrorValidateContent:             StatusErrorValidateContent,
+	CodeErrorValidateStoryID:             StatusErrorValidateStoryID,
+	CodeErrorValidateMaxChaptersPerStory: StatusErrorValidateMaxChaptersPerStory,
+	CodeErrorValidateStoryHasEnd:         StatusErrorValidateStoryHasEnd,
+
 	CodeErrorValidatePositionInvalid:             StatusErrorValidatePositionInvalid,
 	CodeErrorValidateChaptersOrderNotConsecutive: StatusErrorValidateChaptersOrderNotConsecutive,
 	CodeErrorValidateAllIDRequired:               StatusErrorValidateAllIDRequired,
