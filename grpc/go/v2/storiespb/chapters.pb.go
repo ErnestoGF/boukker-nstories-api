@@ -108,6 +108,142 @@ func (x *RequestWriteChapter) GetStoryID() string {
 	return ""
 }
 
+// RequestEditChapter ...
+type RequestEditChapter struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID      string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Title   string `protobuf:"bytes,2,opt,name=Title,proto3" json:"Title,omitempty"`
+	Content string `protobuf:"bytes,3,opt,name=Content,proto3" json:"Content,omitempty"`
+	IsEnd   bool   `protobuf:"varint,4,opt,name=IsEnd,proto3" json:"IsEnd,omitempty"`
+	StoryID string `protobuf:"bytes,5,opt,name=StoryID,proto3" json:"StoryID,omitempty"`
+}
+
+func (x *RequestEditChapter) Reset() {
+	*x = RequestEditChapter{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chapters_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RequestEditChapter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestEditChapter) ProtoMessage() {}
+
+func (x *RequestEditChapter) ProtoReflect() protoreflect.Message {
+	mi := &file_chapters_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestEditChapter.ProtoReflect.Descriptor instead.
+func (*RequestEditChapter) Descriptor() ([]byte, []int) {
+	return file_chapters_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *RequestEditChapter) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *RequestEditChapter) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *RequestEditChapter) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+func (x *RequestEditChapter) GetIsEnd() bool {
+	if x != nil {
+		return x.IsEnd
+	}
+	return false
+}
+
+func (x *RequestEditChapter) GetStoryID() string {
+	if x != nil {
+		return x.StoryID
+	}
+	return ""
+}
+
+// RequestRemoveChapter ...
+type RequestReorderChapters struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StoryID string   `protobuf:"bytes,1,opt,name=StoryID,proto3" json:"StoryID,omitempty"`
+	Items   []*Order `protobuf:"bytes,2,rep,name=Items,proto3" json:"Items,omitempty"`
+}
+
+func (x *RequestReorderChapters) Reset() {
+	*x = RequestReorderChapters{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chapters_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RequestReorderChapters) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestReorderChapters) ProtoMessage() {}
+
+func (x *RequestReorderChapters) ProtoReflect() protoreflect.Message {
+	mi := &file_chapters_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestReorderChapters.ProtoReflect.Descriptor instead.
+func (*RequestReorderChapters) Descriptor() ([]byte, []int) {
+	return file_chapters_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RequestReorderChapters) GetStoryID() string {
+	if x != nil {
+		return x.StoryID
+	}
+	return ""
+}
+
+func (x *RequestReorderChapters) GetItems() []*Order {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 // RequestRemoveChapter ...
 type RequestRemoveChapter struct {
 	state         protoimpl.MessageState
@@ -120,7 +256,7 @@ type RequestRemoveChapter struct {
 func (x *RequestRemoveChapter) Reset() {
 	*x = RequestRemoveChapter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_chapters_proto_msgTypes[1]
+		mi := &file_chapters_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -133,7 +269,7 @@ func (x *RequestRemoveChapter) String() string {
 func (*RequestRemoveChapter) ProtoMessage() {}
 
 func (x *RequestRemoveChapter) ProtoReflect() protoreflect.Message {
-	mi := &file_chapters_proto_msgTypes[1]
+	mi := &file_chapters_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -146,7 +282,7 @@ func (x *RequestRemoveChapter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequestRemoveChapter.ProtoReflect.Descriptor instead.
 func (*RequestRemoveChapter) Descriptor() ([]byte, []int) {
-	return file_chapters_proto_rawDescGZIP(), []int{1}
+	return file_chapters_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RequestRemoveChapter) GetID() string {
@@ -168,7 +304,7 @@ type RequestRemoveChapterCover struct {
 func (x *RequestRemoveChapterCover) Reset() {
 	*x = RequestRemoveChapterCover{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_chapters_proto_msgTypes[2]
+		mi := &file_chapters_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -181,7 +317,7 @@ func (x *RequestRemoveChapterCover) String() string {
 func (*RequestRemoveChapterCover) ProtoMessage() {}
 
 func (x *RequestRemoveChapterCover) ProtoReflect() protoreflect.Message {
-	mi := &file_chapters_proto_msgTypes[2]
+	mi := &file_chapters_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -194,7 +330,7 @@ func (x *RequestRemoveChapterCover) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequestRemoveChapterCover.ProtoReflect.Descriptor instead.
 func (*RequestRemoveChapterCover) Descriptor() ([]byte, []int) {
-	return file_chapters_proto_rawDescGZIP(), []int{2}
+	return file_chapters_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RequestRemoveChapterCover) GetID() string {
@@ -202,62 +338,6 @@ func (x *RequestRemoveChapterCover) GetID() string {
 		return x.ID
 	}
 	return ""
-}
-
-// RequestRemoveChapter ...
-type RequestReorderChapters struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	StoryID string   `protobuf:"bytes,1,opt,name=StoryID,proto3" json:"StoryID,omitempty"`
-	Items   []*Order `protobuf:"bytes,2,rep,name=Items,proto3" json:"Items,omitempty"`
-}
-
-func (x *RequestReorderChapters) Reset() {
-	*x = RequestReorderChapters{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_chapters_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RequestReorderChapters) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RequestReorderChapters) ProtoMessage() {}
-
-func (x *RequestReorderChapters) ProtoReflect() protoreflect.Message {
-	mi := &file_chapters_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestReorderChapters.ProtoReflect.Descriptor instead.
-func (*RequestReorderChapters) Descriptor() ([]byte, []int) {
-	return file_chapters_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *RequestReorderChapters) GetStoryID() string {
-	if x != nil {
-		return x.StoryID
-	}
-	return ""
-}
-
-func (x *RequestReorderChapters) GetItems() []*Order {
-	if x != nil {
-		return x.Items
-	}
-	return nil
 }
 
 var File_chapters_proto protoreflect.FileDescriptor
@@ -277,23 +357,31 @@ var file_chapters_proto_rawDesc = []byte{
 	0x73, 0x54, 0x79, 0x70, 0x65, 0x52, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x14, 0x0a,
 	0x05, 0x49, 0x73, 0x45, 0x6e, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x49, 0x73,
 	0x45, 0x6e, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x18, 0x06,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x22, 0x26, 0x0a,
-	0x14, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x43, 0x68,
-	0x61, 0x70, 0x74, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x02, 0x49, 0x44, 0x22, 0x2b, 0x0a, 0x19, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x76,
-	0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x49, 0x44, 0x22, 0x58, 0x0a, 0x16, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x65, 0x6f,
-	0x72, 0x64, 0x65, 0x72, 0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x73, 0x12, 0x18, 0x0a, 0x07,
-	0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x53,
-	0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x12, 0x24, 0x0a, 0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x18,
-	0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x2e,
-	0x4f, 0x72, 0x64, 0x65, 0x72, 0x52, 0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x42, 0x40, 0x5a, 0x3e,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x45, 0x72, 0x6e, 0x65, 0x73,
-	0x74, 0x6f, 0x47, 0x46, 0x2f, 0x62, 0x6f, 0x75, 0x6b, 0x6b, 0x65, 0x72, 0x2d, 0x6e, 0x73, 0x74,
-	0x6f, 0x72, 0x69, 0x65, 0x73, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x67,
-	0x6f, 0x2f, 0x76, 0x32, 0x2f, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x70, 0x62, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x22, 0x84, 0x01,
+	0x0a, 0x12, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x45, 0x64, 0x69, 0x74, 0x43, 0x68, 0x61,
+	0x70, 0x74, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x02, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x43, 0x6f,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x49, 0x73, 0x45, 0x6e, 0x64, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x05, 0x49, 0x73, 0x45, 0x6e, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x53, 0x74,
+	0x6f, 0x72, 0x79, 0x49, 0x44, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x53, 0x74, 0x6f,
+	0x72, 0x79, 0x49, 0x44, 0x22, 0x58, 0x0a, 0x16, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52,
+	0x65, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x73, 0x12, 0x18,
+	0x0a, 0x07, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x07, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x44, 0x12, 0x24, 0x0a, 0x05, 0x49, 0x74, 0x65, 0x6d,
+	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65,
+	0x73, 0x2e, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x52, 0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x26,
+	0x0a, 0x14, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x43,
+	0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x22, 0x2b, 0x0a, 0x19, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x43, 0x6f,
+	0x76, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x49, 0x44, 0x42, 0x40, 0x5a, 0x3e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x45, 0x72, 0x6e, 0x65, 0x73, 0x74, 0x6f, 0x47, 0x46, 0x2f, 0x62, 0x6f, 0x75, 0x6b,
+	0x6b, 0x65, 0x72, 0x2d, 0x6e, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x2d, 0x61, 0x70, 0x69,
+	0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x32, 0x2f, 0x73, 0x74, 0x6f, 0x72,
+	0x69, 0x65, 0x73, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -308,18 +396,19 @@ func file_chapters_proto_rawDescGZIP() []byte {
 	return file_chapters_proto_rawDescData
 }
 
-var file_chapters_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_chapters_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_chapters_proto_goTypes = []interface{}{
 	(*RequestWriteChapter)(nil),       // 0: stories.RequestWriteChapter
-	(*RequestRemoveChapter)(nil),      // 1: stories.RequestRemoveChapter
-	(*RequestRemoveChapterCover)(nil), // 2: stories.RequestRemoveChapterCover
-	(*RequestReorderChapters)(nil),    // 3: stories.RequestReorderChapters
-	(StatusType)(0),                   // 4: stories.StatusType
-	(*Order)(nil),                     // 5: stories.Order
+	(*RequestEditChapter)(nil),        // 1: stories.RequestEditChapter
+	(*RequestReorderChapters)(nil),    // 2: stories.RequestReorderChapters
+	(*RequestRemoveChapter)(nil),      // 3: stories.RequestRemoveChapter
+	(*RequestRemoveChapterCover)(nil), // 4: stories.RequestRemoveChapterCover
+	(StatusType)(0),                   // 5: stories.StatusType
+	(*Order)(nil),                     // 6: stories.Order
 }
 var file_chapters_proto_depIdxs = []int32{
-	4, // 0: stories.RequestWriteChapter.Status:type_name -> stories.StatusType
-	5, // 1: stories.RequestReorderChapters.Items:type_name -> stories.Order
+	5, // 0: stories.RequestWriteChapter.Status:type_name -> stories.StatusType
+	6, // 1: stories.RequestReorderChapters.Items:type_name -> stories.Order
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -347,7 +436,7 @@ func file_chapters_proto_init() {
 			}
 		}
 		file_chapters_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequestRemoveChapter); i {
+			switch v := v.(*RequestEditChapter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -359,7 +448,7 @@ func file_chapters_proto_init() {
 			}
 		}
 		file_chapters_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequestRemoveChapterCover); i {
+			switch v := v.(*RequestReorderChapters); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -371,7 +460,19 @@ func file_chapters_proto_init() {
 			}
 		}
 		file_chapters_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RequestReorderChapters); i {
+			switch v := v.(*RequestRemoveChapter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_chapters_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RequestRemoveChapterCover); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -389,7 +490,7 @@ func file_chapters_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_chapters_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
