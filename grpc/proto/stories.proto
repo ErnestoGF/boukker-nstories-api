@@ -22,6 +22,9 @@ service stories {
   // EditStory actualiza los datos de la historia
   rpc EditStory(RequestEditStory) returns (google.protobuf.Empty);
 
+  // ChangeFinished pone o quita si una historia llego a su fin
+  rpc ChangeFinished(RequestChangeFinished) returns (google.protobuf.Empty);
+
   // === commons story and chapters === //
 
   // ChangeStatus cambia el estado de la historia y/o capitulos.
@@ -91,6 +94,11 @@ message RequestEditStory {
   CommentModerationType CommentsModeration = 9;
 
   string Description  = 10;
+}
+
+// RequestChangeFinished
+message RequestChangeFinished{
+  bool Finished = 1;
 }
 
 // RequestChangeStoryStatus ...

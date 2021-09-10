@@ -230,7 +230,7 @@ var (
 	}
 	// StatusErrorValidateStoryHasEnd ...
 	StatusErrorValidateStoryHasEnd = &commonsStatus.Status{
-		CodeGRPC: codes.InvalidArgument,
+		CodeGRPC: codes.FailedPrecondition,
 		Code:     CodeErrorValidateMaxChaptersPerStory,
 		Message:  "the story already has an end",
 	}

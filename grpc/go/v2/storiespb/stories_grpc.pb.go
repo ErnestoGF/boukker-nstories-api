@@ -25,6 +25,8 @@ type StoriesClient interface {
 	RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// EditStory actualiza los datos de la historia
 	EditStory(ctx context.Context, in *RequestEditStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ChangeFinished pone o quita si una historia llego a su fin
+	ChangeFinished(ctx context.Context, in *RequestChangeFinished, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -74,6 +76,15 @@ func (c *storiesClient) RemoveStory(ctx context.Context, in *RequestRemoveStory,
 func (c *storiesClient) EditStory(ctx context.Context, in *RequestEditStory, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/stories.stories/EditStory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) ChangeFinished(ctx context.Context, in *RequestChangeFinished, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/ChangeFinished", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -153,6 +164,8 @@ type StoriesServer interface {
 	RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error)
 	// EditStory actualiza los datos de la historia
 	EditStory(context.Context, *RequestEditStory) (*emptypb.Empty, error)
+	// ChangeFinished pone o quita si una historia llego a su fin
+	ChangeFinished(context.Context, *RequestChangeFinished) (*emptypb.Empty, error)
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -186,6 +199,9 @@ func (UnimplementedStoriesServer) RemoveStory(context.Context, *RequestRemoveSto
 }
 func (UnimplementedStoriesServer) EditStory(context.Context, *RequestEditStory) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditStory not implemented")
+}
+func (UnimplementedStoriesServer) ChangeFinished(context.Context, *RequestChangeFinished) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeFinished not implemented")
 }
 func (UnimplementedStoriesServer) ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatus not implemented")
@@ -271,6 +287,24 @@ func _Stories_EditStory_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(StoriesServer).EditStory(ctx, req.(*RequestEditStory))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_ChangeFinished_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestChangeFinished)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).ChangeFinished(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/ChangeFinished",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).ChangeFinished(ctx, req.(*RequestChangeFinished))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -419,6 +453,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EditStory",
 			Handler:    _Stories_EditStory_Handler,
+		},
+		{
+			MethodName: "ChangeFinished",
+			Handler:    _Stories_ChangeFinished_Handler,
 		},
 		{
 			MethodName: "ChangeStatus",

@@ -6,7 +6,10 @@ option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storie
 
 // ================= requests ================= //
 
-
+// RequestID ...
+message RequestID {
+  string ID = 1;
+}
 
 // ================= responses ================= //
 
@@ -59,6 +62,9 @@ message Order {
   string ID = 1;
   int32 Position = 2; 
 }
+
+// ================= response models ================= //
+
 
 // ================= types ================= //
 
