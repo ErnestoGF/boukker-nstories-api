@@ -98,7 +98,8 @@ message RequestEditStory {
 
 // RequestChangeFinished
 message RequestChangeFinished{
-  bool Finished = 1;
+  string ID = 1;
+  bool Finished = 2;
 }
 
 // RequestChangeStoryStatus ...

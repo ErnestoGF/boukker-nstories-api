@@ -47,6 +47,8 @@ const (
 	CodeErrorValidateTokenCover
 	// CodeErrorValidateDescription ...
 	CodeErrorValidateDescription
+	// CodeErrorValidateStoryFinished ...
+	CodeErrorValidateStoryFinished
 	// CodeErrorValidateID ...
 	CodeErrorValidateID
 	// CodeErrorValidateCheckLanguageOnIA ...
@@ -60,10 +62,8 @@ const (
 	CodeErrorValidateContent
 	// CodeErrorValidateStoryID ...
 	CodeErrorValidateStoryID
-	// CodeErrorValidateStoryID ...
+	// CodeErrorValidateMaxChaptersPerStory ...
 	CodeErrorValidateMaxChaptersPerStory
-	// CodeErrorValidateStoryHasEnd ...
-	CodeErrorValidateStoryHasEnd
 	// CodeErrorValidatePositionInvalid ...
 	CodeErrorValidatePositionInvalid
 	// CodeErrorValidateChaptersOrderNotConsecutive
@@ -228,11 +228,11 @@ var (
 		Code:     CodeErrorValidateMaxChaptersPerStory,
 		Message:  "maximum number of chapters per story is 200",
 	}
-	// StatusErrorValidateStoryHasEnd ...
-	StatusErrorValidateStoryHasEnd = &commonsStatus.Status{
+	// StatusErrorValidateStoryFinished ...
+	StatusErrorValidateStoryFinished = &commonsStatus.Status{
 		CodeGRPC: codes.FailedPrecondition,
-		Code:     CodeErrorValidateMaxChaptersPerStory,
-		Message:  "the story already has an end",
+		Code:     CodeErrorValidateStoryFinished,
+		Message:  "the story is finished",
 	}
 
 	// StatusErrorValidatePositionInvalid ...
@@ -299,7 +299,7 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateContent:             StatusErrorValidateContent,
 	CodeErrorValidateStoryID:             StatusErrorValidateStoryID,
 	CodeErrorValidateMaxChaptersPerStory: StatusErrorValidateMaxChaptersPerStory,
-	CodeErrorValidateStoryHasEnd:         StatusErrorValidateStoryHasEnd,
+	CodeErrorValidateStoryFinished:       StatusErrorValidateStoryFinished,
 
 	CodeErrorValidatePositionInvalid:             StatusErrorValidatePositionInvalid,
 	CodeErrorValidateChaptersOrderNotConsecutive: StatusErrorValidateChaptersOrderNotConsecutive,
