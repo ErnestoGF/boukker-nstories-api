@@ -7,16 +7,12 @@ option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storie
 // ================= requests ================= //
 
 // RequestID ...
-message RequestID {
-  string ID = 1;
-}
+message RequestID { string ID = 1; }
 
 // ================= responses ================= //
 
 // ResponseID ...
-message ResponseID { 
-  string ID = 1; 
-}
+message ResponseID { string ID = 1; }
 
 // ================= info ================= //
 
@@ -42,29 +38,106 @@ message UserInfo {
   string Avatar = 4;
 }
 
-// TotalReactionInfo ...
-message TotalReactionInfo {
-  ReactionType Type = 1;
-  int64 Total = 2;
+// StoryInfo ...
+message StoryInfo {
+  string ID = 1;
+  string Title = 2;
+  string Cover = 3;
 }
 
 // ChapterInfo ...
 message ChapterInfo {
   string ID = 1;
-  int32 Position = 2;
-  StatusType Status = 3;
+  string Title = 2;
+  string Cover = 3;
+  int32 NumberPages = 4; 
+  int32 Position = 5;
+  StatusType Status = 6;
 }
 
+// BookmarkInfo ...
+message BookmarkInfo {
+  string ID = 1;
+  string Path = 2;
+}
+
+// TotalReactionInfo ...
+message TotalReactionInfo {
+  ReactionType Type = 1;
+  int64 Total = 2;
+}
 // ================= request models ================= //
 
 // Order ...
 message Order {
   string ID = 1;
-  int32 Position = 2; 
+  int32 Position = 2;
 }
 
 // ================= response models ================= //
 
+// Story ...
+message Story {
+  string ID = 1;
+  string Title = 2;
+  string Author = 3;
+  bool IsMy = 4;
+  repeated string Tags = 5;
+
+  CategoryInfo Category = 6;
+  LanguageInfo LanguageID = 7;
+  UserInfo Writer = 8;
+
+  string Cover = 9;
+  StatusType Status = 10;
+  repeated string Characters = 11;
+  AudienceType Audience = 12;
+  CopyrightType Copyright = 13;
+  ClasificationType Clasification = 14;
+  CommentModerationType CommentsModeration = 15;
+
+  bool Finished = 16;
+
+  int64 CreatedAt = 17;
+  int64 UpdatedAt = 18;
+  int64 PublishedAt = 19;
+
+  int64 TotalComments = 20;
+  int64 TotalReadings = 21;
+  int64 TotalShared = 22;
+  int64 TotalCoffees = 23;
+
+  string Description = 24;
+
+  repeated TotalReactionInfo TotalReactions = 25;
+  repeated ChapterInfo Chapters = 26;
+}
+
+// Chapter ...
+message Chapter {
+  string ID = 1;
+  string Title = 2;
+  string Content = 3;
+  string Cover = 4;
+  StatusType Status = 5;
+
+  int32 Position = 6;
+  int32 NumberPages = 7;
+
+  string StoryID = 8;
+  string WriterID = 9;
+
+  int64 CreatedAt = 10;
+  int64 UpdatedAt = 11;
+  int64 PublishedAt = 12;
+
+  int64 TotalComments = 13;
+  int64 TotalReadings = 14;
+  int64 TotalShared = 15;
+  int64 TotalCoffees = 16;
+
+  repeated TotalReactionInfo TotalReactions = 17;
+}
 
 // ================= types ================= //
 
@@ -84,7 +157,7 @@ enum ReactionType {
 // AudienceType ...
 enum AudienceType {
   AT_IGNORE = 0;
-  // AT_ALL all 
+  // AT_ALL all
   AT_ALL = 1;
   // AT_YOUNG 13-18 years
   AT_YOUNG = 2;

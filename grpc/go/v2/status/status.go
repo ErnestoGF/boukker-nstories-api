@@ -47,14 +47,17 @@ const (
 	CodeErrorValidateTokenCover
 	// CodeErrorValidateDescription ...
 	CodeErrorValidateDescription
-	// CodeErrorValidateStoryFinished ...
-	CodeErrorValidateStoryFinished
 	// CodeErrorValidateID ...
 	CodeErrorValidateID
 	// CodeErrorValidateCheckLanguageOnIA ...
 	CodeErrorValidateCheckLanguageOnIA
 	// CodeErrorValidateDst ...
 	CodeErrorValidateDst
+
+	// CodeErrorValidateStoryFinished ...
+	CodeErrorValidateStoryFinished
+	// CodeErrorValidateStoryWithoutChaptersNotFinished ...
+	CodeErrorValidateStoryWithoutChaptersNotFinished
 
 	// ================ validation chapter ================ //
 
@@ -208,6 +211,19 @@ var (
 		Message:  "destination is invalid",
 	}
 
+	// StatusErrorValidateStoryFinished ...
+	StatusErrorValidateStoryFinished = &commonsStatus.Status{
+		CodeGRPC: codes.FailedPrecondition,
+		Code:     CodeErrorValidateStoryFinished,
+		Message:  "the story is finished",
+	}
+	// StatusErrorValidateStoryWithoutChaptersNotFinished ...
+	StatusErrorValidateStoryWithoutChaptersNotFinished = &commonsStatus.Status{
+		CodeGRPC: codes.FailedPrecondition,
+		Code:     CodeErrorValidateStoryWithoutChaptersNotFinished,
+		Message:  "story without chapters cannot be finalized",
+	}
+
 	// ================ validation chapter ================ //
 
 	// StatusErrorValidateContent ...
@@ -227,12 +243,6 @@ var (
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidateMaxChaptersPerStory,
 		Message:  "maximum number of chapters per story is 200",
-	}
-	// StatusErrorValidateStoryFinished ...
-	StatusErrorValidateStoryFinished = &commonsStatus.Status{
-		CodeGRPC: codes.FailedPrecondition,
-		Code:     CodeErrorValidateStoryFinished,
-		Message:  "the story is finished",
 	}
 
 	// StatusErrorValidatePositionInvalid ...
@@ -294,12 +304,14 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateCheckLanguageOnIA:  StatusErrorValidateCheckLanguageOnIA,
 	CodeErrorValidateDst:                StatusErrorValidateDst,
 
+	CodeErrorValidateStoryFinished:                   StatusErrorValidateStoryFinished,
+	CodeErrorValidateStoryWithoutChaptersNotFinished: StatusErrorValidateStoryWithoutChaptersNotFinished,
+
 	// ================ validation chapter ================ //
 
 	CodeErrorValidateContent:             StatusErrorValidateContent,
 	CodeErrorValidateStoryID:             StatusErrorValidateStoryID,
 	CodeErrorValidateMaxChaptersPerStory: StatusErrorValidateMaxChaptersPerStory,
-	CodeErrorValidateStoryFinished:       StatusErrorValidateStoryFinished,
 
 	CodeErrorValidatePositionInvalid:             StatusErrorValidatePositionInvalid,
 	CodeErrorValidateChaptersOrderNotConsecutive: StatusErrorValidateChaptersOrderNotConsecutive,

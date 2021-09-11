@@ -45,6 +45,8 @@ type StoriesClient interface {
 	RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RemoveChapterCover ...
 	RemoveChapterCover(ctx context.Context, in *RequestRemoveChapterCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ReadChapter leer un capitulo de una historia
+	ReadChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseReadChapter, error)
 }
 
 type storiesClient struct {
@@ -154,6 +156,15 @@ func (c *storiesClient) RemoveChapterCover(ctx context.Context, in *RequestRemov
 	return out, nil
 }
 
+func (c *storiesClient) ReadChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseReadChapter, error) {
+	out := new(ResponseReadChapter)
+	err := c.cc.Invoke(ctx, "/stories.stories/ReadChapter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoriesServer is the server API for Stories service.
 // All implementations must embed UnimplementedStoriesServer
 // for forward compatibility
@@ -184,6 +195,8 @@ type StoriesServer interface {
 	RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error)
 	// RemoveChapterCover ...
 	RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error)
+	// ReadChapter leer un capitulo de una historia
+	ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error)
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -223,6 +236,9 @@ func (UnimplementedStoriesServer) RemoveChapter(context.Context, *RequestRemoveC
 }
 func (UnimplementedStoriesServer) RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveChapterCover not implemented")
+}
+func (UnimplementedStoriesServer) ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadChapter not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -435,6 +451,24 @@ func _Stories_RemoveChapterCover_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_ReadChapter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).ReadChapter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/ReadChapter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).ReadChapter(ctx, req.(*RequestID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Stories_ServiceDesc is the grpc.ServiceDesc for Stories service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -485,6 +519,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveChapterCover",
 			Handler:    _Stories_RemoveChapterCover_Handler,
+		},
+		{
+			MethodName: "ReadChapter",
+			Handler:    _Stories_ReadChapter_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

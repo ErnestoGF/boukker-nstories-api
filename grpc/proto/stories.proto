@@ -54,6 +54,8 @@ service stories {
   // RemoveChapterCover ...
   rpc RemoveChapterCover(RequestRemoveChapterCover) returns (google.protobuf.Empty);
 
+  // ReadChapter leer un capitulo de una historia
+  rpc ReadChapter (RequestID) returns (ResponseReadChapter);
 }
 
 // ================= requests ================= //
