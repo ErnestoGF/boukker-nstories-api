@@ -9,15 +9,11 @@ import "google/protobuf/empty.proto";
 import "commons.proto";
 import "chapters.proto";
 
-
 service stories {
   // ================= stories ================= //
 
   // WriteStory ...
   rpc WriteStory(RequestWriteStory) returns (ResponseID);
-
-  // RemoveStory ...
-  rpc RemoveStory(RequestRemoveStory) returns (google.protobuf.Empty);
 
   // EditStory actualiza los datos de la historia
   rpc EditStory(RequestEditStory) returns (google.protobuf.Empty);
@@ -25,23 +21,29 @@ service stories {
   // ChangeFinished pone o quita si una historia llego a su fin
   rpc ChangeFinished(RequestChangeFinished) returns (google.protobuf.Empty);
 
+  // RemoveStory ...
+  rpc RemoveStory(RequestRemoveStory) returns (google.protobuf.Empty);
+
   // === commons story and chapters === //
 
   // ChangeStatus cambia el estado de la historia y/o capitulos.
-  // 
+  //
   // Acciones:
-  // * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta vacio.
-  // * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde tambien se cambiara el estado de la historia.
+  // * Cambia el estado de la historia y todos sus capitulos si ChaptersID esta
+  // vacio.
+  // * Cambia el estado de los capitulos q vienen en ChaptersID y si corresponde
+  // tambien se cambiara el estado de la historia.
   rpc ChangeStatus(RequestChangeStoryStatus) returns (google.protobuf.Empty);
 
-  // ChangeCover cambia el cover a  la historia y/o capitulos segun los datos de la peticion
+  // ChangeCover cambia el cover a  la historia y/o capitulos segun los datos de
+  // la peticion
   rpc ChangeCover(RequestChangeCover) returns (google.protobuf.Empty);
 
   // ================= chapters ================= //
 
   // WriteChapter ...
   rpc WriteChapter(RequestWriteChapter) returns (ResponseID);
-  
+
   // EditChapter actualiza los datos de un capitulo
   rpc EditChapter(RequestEditChapter) returns (google.protobuf.Empty);
 
@@ -52,10 +54,11 @@ service stories {
   rpc RemoveChapter(RequestRemoveChapter) returns (google.protobuf.Empty);
 
   // RemoveChapterCover ...
-  rpc RemoveChapterCover(RequestRemoveChapterCover) returns (google.protobuf.Empty);
+  rpc RemoveChapterCover(RequestRemoveChapterCover)
+      returns (google.protobuf.Empty);
 
   // ReadChapter leer un capitulo de una historia
-  rpc ReadChapter (RequestID) returns (ResponseReadChapter);
+  rpc ReadChapter(RequestID) returns (ResponseReadChapter);
 }
 
 // ================= requests ================= //
@@ -77,13 +80,13 @@ message RequestWriteStory {
   ClasificationType Clasification = 11;
   CommentModerationType CommentsModeration = 12;
 
-  string Description  = 13;
+  string Description = 13;
 }
 
 // RequestEditStory ...
 message RequestEditStory {
   string ID = 1;
-  
+
   string Title = 2;
   repeated string Tags = 3;
   string CategoryID = 4;
@@ -95,11 +98,11 @@ message RequestEditStory {
   ClasificationType Clasification = 8;
   CommentModerationType CommentsModeration = 9;
 
-  string Description  = 10;
+  string Description = 10;
 }
 
 // RequestChangeFinished
-message RequestChangeFinished{
+message RequestChangeFinished {
   string ID = 1;
   bool Finished = 2;
 }
@@ -112,11 +115,10 @@ message RequestChangeStoryStatus {
 }
 
 // RequestRemoveStory ...
-message RequestRemoveStory{
-  string ID = 1;
-}
+message RequestRemoveStory { string ID = 1; }
 
-// RequestChangeCover cambiar el cover de la historia o el capitulo segun el destino del cover
+// RequestChangeCover cambiar el cover de la historia o el capitulo segun el
+// destino del cover
 message RequestChangeCover {
   enum Dst {
     IGNORE = 0;
@@ -128,5 +130,41 @@ message RequestChangeCover {
   Dst Destination = 3;
 }
 
+// RequestMyStories ...
+message RequestMyStories {
+  FilterMyStories Filter = 1;
+  StoriesSort Sort = 2;
+  Paginator Paginator = 3;
+}
+
+// ================= filters ================= //
+
+// FilterMyStories ...
+message FilterMyStories {
+  StatusType Status = 1;
+  // WordsOnTitle palabras q contiene el titulo 
+  string WordsOnTitle = 2;
+  string CategoryID = 3;
+  int64 StartPublishedAt = 4;
+  int64 EndPublishedAt = 5;
+}
+
+// StoriesSort ...
+message StoriesSort {
+  enum SortBy {
+    IGNORE = 0;
+    TITLE = 1;
+    PUBLISHED_AT = 2;
+    CREATED_AT = 3;
+  }
+  SortBy By = 1;
+  bool Descendent = 2;
+}
+
 // ================= responses ================= //
 
+// ResponseMyStories ...
+message ResponseMyStories {
+  uint64 Total = 1;
+  repeated Story Stories = 2;
+}

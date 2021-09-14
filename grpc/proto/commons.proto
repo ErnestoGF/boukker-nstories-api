@@ -34,7 +34,7 @@ message LanguageInfo {
 message UserInfo {
   string ID = 1;
   string Username = 2;
-  string Name = 3;
+  string Fullname = 3;
   string Avatar = 4;
 }
 
@@ -68,6 +68,12 @@ message TotalReactionInfo {
 }
 // ================= request models ================= //
 
+// Paginator ...
+message Paginator {
+  uint64 Page = 1;
+  uint64 ResultsPerPage = 2;
+}
+
 // Order ...
 message Order {
   string ID = 1;
@@ -85,7 +91,7 @@ message Story {
   repeated string Tags = 5;
 
   CategoryInfo Category = 6;
-  LanguageInfo LanguageID = 7;
+  LanguageInfo Language = 7;
   UserInfo Writer = 8;
 
   string Cover = 9;
@@ -193,3 +199,4 @@ enum CommentModerationType {
   CMT_MANUAL = 2;
   CMT_KATHE = 3;
 }
+
