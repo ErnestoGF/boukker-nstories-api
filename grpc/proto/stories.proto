@@ -24,6 +24,9 @@ service stories {
   // RemoveStory ...
   rpc RemoveStory(RequestRemoveStory) returns (google.protobuf.Empty);
 
+  // MyStories lista las historias del usuario logueado
+  rpc MyStories(RequestMyStories) returns (stream ResponseMyStories);
+
   // === commons story and chapters === //
 
   // ChangeStatus cambia el estado de la historia y/o capitulos.
@@ -142,7 +145,7 @@ message RequestMyStories {
 // FilterMyStories ...
 message FilterMyStories {
   StatusType Status = 1;
-  // WordsOnTitle palabras q contiene el titulo 
+  // WordsOnTitle palabras q contiene el titulo
   string WordsOnTitle = 2;
   string CategoryID = 3;
   int64 StartPublishedAt = 4;

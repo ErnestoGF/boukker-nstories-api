@@ -27,6 +27,8 @@ type StoriesClient interface {
 	ChangeFinished(ctx context.Context, in *RequestChangeFinished, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RemoveStory ...
 	RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// MyStories lista las historias del usuario logueado
+	MyStories(ctx context.Context, in *RequestMyStories, opts ...grpc.CallOption) (Stories_MyStoriesClient, error)
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -94,6 +96,38 @@ func (c *storiesClient) RemoveStory(ctx context.Context, in *RequestRemoveStory,
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *storiesClient) MyStories(ctx context.Context, in *RequestMyStories, opts ...grpc.CallOption) (Stories_MyStoriesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Stories_ServiceDesc.Streams[0], "/stories.stories/MyStories", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &storiesMyStoriesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Stories_MyStoriesClient interface {
+	Recv() (*ResponseMyStories, error)
+	grpc.ClientStream
+}
+
+type storiesMyStoriesClient struct {
+	grpc.ClientStream
+}
+
+func (x *storiesMyStoriesClient) Recv() (*ResponseMyStories, error) {
+	m := new(ResponseMyStories)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *storiesClient) ChangeStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
@@ -180,6 +214,8 @@ type StoriesServer interface {
 	ChangeFinished(context.Context, *RequestChangeFinished) (*emptypb.Empty, error)
 	// RemoveStory ...
 	RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error)
+	// MyStories lista las historias del usuario logueado
+	MyStories(*RequestMyStories, Stories_MyStoriesServer) error
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -221,6 +257,9 @@ func (UnimplementedStoriesServer) ChangeFinished(context.Context, *RequestChange
 }
 func (UnimplementedStoriesServer) RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveStory not implemented")
+}
+func (UnimplementedStoriesServer) MyStories(*RequestMyStories, Stories_MyStoriesServer) error {
+	return status.Errorf(codes.Unimplemented, "method MyStories not implemented")
 }
 func (UnimplementedStoriesServer) ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatus not implemented")
@@ -329,6 +368,27 @@ func _Stories_RemoveStory_Handler(srv interface{}, ctx context.Context, dec func
 		return srv.(StoriesServer).RemoveStory(ctx, req.(*RequestRemoveStory))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_MyStories_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RequestMyStories)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(StoriesServer).MyStories(m, &storiesMyStoriesServer{stream})
+}
+
+type Stories_MyStoriesServer interface {
+	Send(*ResponseMyStories) error
+	grpc.ServerStream
+}
+
+type storiesMyStoriesServer struct {
+	grpc.ServerStream
+}
+
+func (x *storiesMyStoriesServer) Send(m *ResponseMyStories) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _Stories_ChangeStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -531,6 +591,12 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Stories_ReadChapter_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "MyStories",
+			Handler:       _Stories_MyStories_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "stories.proto",
 }
