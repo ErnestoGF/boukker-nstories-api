@@ -144,7 +144,7 @@ message RequestChangeCover {
 // RequestMyStories ...
 message RequestMyStories {
   bool LoadTotal = 1;
-  FilterStories Filter = 2;
+  FilterMyStories Filter = 2;
   StoriesSort Sort = 3;
   Paginator Paginator = 4;
 }
@@ -160,14 +160,24 @@ message RequestListStories {
 // RequestRetrieveStory ...
 message RequestRetrieveStory {
   string ID = 1;
-  bool LoadChapters = 2;
 }
 
 // ================= filters ================= //
 
+// FilterMyStories ...
+message FilterMyStories {
+  StatusType Status = 1;
+  // WordsOnTitle palabras q contiene el titulo
+  string WordsOnTitle = 2;
+  string CategoryID = 3;
+  int64 StartPublishedAt = 4;
+  int64 EndPublishedAt = 5;
+  BoolOption IsFinished = 6;
+}
+
 // FilterStories ...
 message FilterStories {
-  StatusType Status = 1;
+  string WriterID = 1;
   // WordsOnTitle palabras q contiene el titulo
   string WordsOnTitle = 2;
   string CategoryID = 3;
