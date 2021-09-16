@@ -32,7 +32,7 @@ service stories {
 
   
   // RetrieveStory recupera una historia
-  rpc RetrieveStory(RequestRetrieveStory) returns (stream ResponseRetrieveStory);
+  rpc RetrieveStory(RequestRetrieveStory) returns (ResponseRetrieveStory);
 
 
   // === commons story and chapters === //
