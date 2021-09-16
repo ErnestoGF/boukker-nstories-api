@@ -27,6 +27,9 @@ service stories {
   // MyStories lista las historias del usuario logueado
   rpc MyStories(RequestMyStories) returns (stream ResponseMyStories);
 
+  // ListStories lista historias
+  rpc ListStories(RequestListStories) returns (stream ResponseListStories);
+
   // === commons story and chapters === //
 
   // ChangeStatus cambia el estado de la historia y/o capitulos.
@@ -135,9 +138,18 @@ message RequestChangeCover {
 
 // RequestMyStories ...
 message RequestMyStories {
-  FilterMyStories Filter = 1;
-  StoriesSort Sort = 2;
-  Paginator Paginator = 3;
+  bool LoadTotal = 1;
+  FilterMyStories Filter = 2;
+  StoriesSort Sort = 3;
+  Paginator Paginator = 4;
+}
+
+// RequestListStories ...
+message RequestListStories {
+  bool LoadTotal = 1;
+  FilterMyStories Filter = 2;
+  StoriesSort Sort = 3;
+  Paginator Paginator = 4;
 }
 
 // ================= filters ================= //
@@ -170,6 +182,12 @@ message StoriesSort {
 
 // ResponseMyStories ...
 message ResponseMyStories {
+  uint64 Total = 1;
+  repeated Story Stories = 2;
+}
+
+// ResponseListStories ...
+message ResponseListStories {
   uint64 Total = 1;
   repeated Story Stories = 2;
 }
