@@ -349,6 +349,56 @@ func (CommentModerationType) EnumDescriptor() ([]byte, []int) {
 	return file_commons_proto_rawDescGZIP(), []int{5}
 }
 
+// BoolOption ...
+type BoolOption int32
+
+const (
+	BoolOption_BO_IGNORE BoolOption = 0
+	BoolOption_BO_TRUE   BoolOption = 1
+	BoolOption_BO_FALSE  BoolOption = 2
+)
+
+// Enum value maps for BoolOption.
+var (
+	BoolOption_name = map[int32]string{
+		0: "BO_IGNORE",
+		1: "BO_TRUE",
+		2: "BO_FALSE",
+	}
+	BoolOption_value = map[string]int32{
+		"BO_IGNORE": 0,
+		"BO_TRUE":   1,
+		"BO_FALSE":  2,
+	}
+)
+
+func (x BoolOption) Enum() *BoolOption {
+	p := new(BoolOption)
+	*p = x
+	return p
+}
+
+func (x BoolOption) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BoolOption) Descriptor() protoreflect.EnumDescriptor {
+	return file_commons_proto_enumTypes[6].Descriptor()
+}
+
+func (BoolOption) Type() protoreflect.EnumType {
+	return &file_commons_proto_enumTypes[6]
+}
+
+func (x BoolOption) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BoolOption.Descriptor instead.
+func (BoolOption) EnumDescriptor() ([]byte, []int) {
+	return file_commons_proto_rawDescGZIP(), []int{6}
+}
+
 // RequestID ...
 type RequestID struct {
 	state         protoimpl.MessageState
@@ -1665,12 +1715,15 @@ var file_commons_proto_rawDesc = []byte{
 	0x0a, 0x0a, 0x43, 0x4d, 0x54, 0x5f, 0x49, 0x47, 0x4e, 0x4f, 0x52, 0x45, 0x10, 0x00, 0x12, 0x0c,
 	0x0a, 0x08, 0x43, 0x4d, 0x54, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x01, 0x12, 0x0e, 0x0a, 0x0a,
 	0x43, 0x4d, 0x54, 0x5f, 0x4d, 0x41, 0x4e, 0x55, 0x41, 0x4c, 0x10, 0x02, 0x12, 0x0d, 0x0a, 0x09,
-	0x43, 0x4d, 0x54, 0x5f, 0x4b, 0x41, 0x54, 0x48, 0x45, 0x10, 0x03, 0x42, 0x40, 0x5a, 0x3e, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x45, 0x72, 0x6e, 0x65, 0x73, 0x74,
-	0x6f, 0x47, 0x46, 0x2f, 0x62, 0x6f, 0x75, 0x6b, 0x6b, 0x65, 0x72, 0x2d, 0x6e, 0x73, 0x74, 0x6f,
-	0x72, 0x69, 0x65, 0x73, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x67, 0x6f,
-	0x2f, 0x76, 0x32, 0x2f, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x70, 0x62, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x43, 0x4d, 0x54, 0x5f, 0x4b, 0x41, 0x54, 0x48, 0x45, 0x10, 0x03, 0x2a, 0x36, 0x0a, 0x0a, 0x42,
+	0x6f, 0x6f, 0x6c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0d, 0x0a, 0x09, 0x42, 0x4f, 0x5f,
+	0x49, 0x47, 0x4e, 0x4f, 0x52, 0x45, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x42, 0x4f, 0x5f, 0x54,
+	0x52, 0x55, 0x45, 0x10, 0x01, 0x12, 0x0c, 0x0a, 0x08, 0x42, 0x4f, 0x5f, 0x46, 0x41, 0x4c, 0x53,
+	0x45, 0x10, 0x02, 0x42, 0x40, 0x5a, 0x3e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x45, 0x72, 0x6e, 0x65, 0x73, 0x74, 0x6f, 0x47, 0x46, 0x2f, 0x62, 0x6f, 0x75, 0x6b,
+	0x6b, 0x65, 0x72, 0x2d, 0x6e, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x2d, 0x61, 0x70, 0x69,
+	0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x32, 0x2f, 0x73, 0x74, 0x6f, 0x72,
+	0x69, 0x65, 0x73, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1685,7 +1738,7 @@ func file_commons_proto_rawDescGZIP() []byte {
 	return file_commons_proto_rawDescData
 }
 
-var file_commons_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
+var file_commons_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
 var file_commons_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_commons_proto_goTypes = []interface{}{
 	(StatusType)(0),            // 0: stories.StatusType
@@ -1694,35 +1747,36 @@ var file_commons_proto_goTypes = []interface{}{
 	(CopyrightType)(0),         // 3: stories.CopyrightType
 	(ClasificationType)(0),     // 4: stories.ClasificationType
 	(CommentModerationType)(0), // 5: stories.CommentModerationType
-	(*RequestID)(nil),          // 6: stories.RequestID
-	(*ResponseID)(nil),         // 7: stories.ResponseID
-	(*CategoryInfo)(nil),       // 8: stories.CategoryInfo
-	(*LanguageInfo)(nil),       // 9: stories.LanguageInfo
-	(*UserInfo)(nil),           // 10: stories.UserInfo
-	(*StoryInfo)(nil),          // 11: stories.StoryInfo
-	(*ChapterInfo)(nil),        // 12: stories.ChapterInfo
-	(*BookmarkInfo)(nil),       // 13: stories.BookmarkInfo
-	(*TotalReactionInfo)(nil),  // 14: stories.TotalReactionInfo
-	(*Paginator)(nil),          // 15: stories.Paginator
-	(*Order)(nil),              // 16: stories.Order
-	(*Story)(nil),              // 17: stories.Story
-	(*Chapter)(nil),            // 18: stories.Chapter
+	(BoolOption)(0),            // 6: stories.BoolOption
+	(*RequestID)(nil),          // 7: stories.RequestID
+	(*ResponseID)(nil),         // 8: stories.ResponseID
+	(*CategoryInfo)(nil),       // 9: stories.CategoryInfo
+	(*LanguageInfo)(nil),       // 10: stories.LanguageInfo
+	(*UserInfo)(nil),           // 11: stories.UserInfo
+	(*StoryInfo)(nil),          // 12: stories.StoryInfo
+	(*ChapterInfo)(nil),        // 13: stories.ChapterInfo
+	(*BookmarkInfo)(nil),       // 14: stories.BookmarkInfo
+	(*TotalReactionInfo)(nil),  // 15: stories.TotalReactionInfo
+	(*Paginator)(nil),          // 16: stories.Paginator
+	(*Order)(nil),              // 17: stories.Order
+	(*Story)(nil),              // 18: stories.Story
+	(*Chapter)(nil),            // 19: stories.Chapter
 }
 var file_commons_proto_depIdxs = []int32{
 	0,  // 0: stories.ChapterInfo.Status:type_name -> stories.StatusType
 	1,  // 1: stories.TotalReactionInfo.Type:type_name -> stories.ReactionType
-	8,  // 2: stories.Story.Category:type_name -> stories.CategoryInfo
-	9,  // 3: stories.Story.Language:type_name -> stories.LanguageInfo
-	10, // 4: stories.Story.Writer:type_name -> stories.UserInfo
+	9,  // 2: stories.Story.Category:type_name -> stories.CategoryInfo
+	10, // 3: stories.Story.Language:type_name -> stories.LanguageInfo
+	11, // 4: stories.Story.Writer:type_name -> stories.UserInfo
 	0,  // 5: stories.Story.Status:type_name -> stories.StatusType
 	2,  // 6: stories.Story.Audience:type_name -> stories.AudienceType
 	3,  // 7: stories.Story.Copyright:type_name -> stories.CopyrightType
 	4,  // 8: stories.Story.Clasification:type_name -> stories.ClasificationType
 	5,  // 9: stories.Story.CommentsModeration:type_name -> stories.CommentModerationType
-	14, // 10: stories.Story.TotalReactions:type_name -> stories.TotalReactionInfo
-	12, // 11: stories.Story.Chapters:type_name -> stories.ChapterInfo
+	15, // 10: stories.Story.TotalReactions:type_name -> stories.TotalReactionInfo
+	13, // 11: stories.Story.Chapters:type_name -> stories.ChapterInfo
 	0,  // 12: stories.Chapter.Status:type_name -> stories.StatusType
-	14, // 13: stories.Chapter.TotalReactions:type_name -> stories.TotalReactionInfo
+	15, // 13: stories.Chapter.TotalReactions:type_name -> stories.TotalReactionInfo
 	14, // [14:14] is the sub-list for method output_type
 	14, // [14:14] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
@@ -1898,7 +1952,7 @@ func file_commons_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commons_proto_rawDesc,
-			NumEnums:      6,
+			NumEnums:      7,
 			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,

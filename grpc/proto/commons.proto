@@ -201,3 +201,10 @@ enum CommentModerationType {
   CMT_MANUAL = 2;
   CMT_KATHE = 3;
 }
+
+// BoolOption ...
+enum BoolOption {
+  BO_IGNORE = 0;
+  BO_TRUE = 1;
+  BO_FALSE = 2;
+}

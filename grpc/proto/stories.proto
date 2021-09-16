@@ -162,7 +162,7 @@ message FilterStories {
   string CategoryID = 3;
   int64 StartPublishedAt = 4;
   int64 EndPublishedAt = 5;
-  bool IsFinished = 6;
+  BoolOption IsFinished = 6;
 }
 
 // ================= sorts ================= //
