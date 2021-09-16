@@ -31,6 +31,8 @@ type StoriesClient interface {
 	MyStories(ctx context.Context, in *RequestMyStories, opts ...grpc.CallOption) (Stories_MyStoriesClient, error)
 	// ListStories lista historias
 	ListStories(ctx context.Context, in *RequestListStories, opts ...grpc.CallOption) (Stories_ListStoriesClient, error)
+	// RetrieveStory recupera una historia
+	RetrieveStory(ctx context.Context, in *RequestRetrieveStory, opts ...grpc.CallOption) (Stories_RetrieveStoryClient, error)
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -164,6 +166,38 @@ func (x *storiesListStoriesClient) Recv() (*ResponseListStories, error) {
 	return m, nil
 }
 
+func (c *storiesClient) RetrieveStory(ctx context.Context, in *RequestRetrieveStory, opts ...grpc.CallOption) (Stories_RetrieveStoryClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Stories_ServiceDesc.Streams[2], "/stories.stories/RetrieveStory", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &storiesRetrieveStoryClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Stories_RetrieveStoryClient interface {
+	Recv() (*ResponseRetrieveStory, error)
+	grpc.ClientStream
+}
+
+type storiesRetrieveStoryClient struct {
+	grpc.ClientStream
+}
+
+func (x *storiesRetrieveStoryClient) Recv() (*ResponseRetrieveStory, error) {
+	m := new(ResponseRetrieveStory)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *storiesClient) ChangeStatus(ctx context.Context, in *RequestChangeStoryStatus, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/stories.stories/ChangeStatus", in, out, opts...)
@@ -252,6 +286,8 @@ type StoriesServer interface {
 	MyStories(*RequestMyStories, Stories_MyStoriesServer) error
 	// ListStories lista historias
 	ListStories(*RequestListStories, Stories_ListStoriesServer) error
+	// RetrieveStory recupera una historia
+	RetrieveStory(*RequestRetrieveStory, Stories_RetrieveStoryServer) error
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -299,6 +335,9 @@ func (UnimplementedStoriesServer) MyStories(*RequestMyStories, Stories_MyStories
 }
 func (UnimplementedStoriesServer) ListStories(*RequestListStories, Stories_ListStoriesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListStories not implemented")
+}
+func (UnimplementedStoriesServer) RetrieveStory(*RequestRetrieveStory, Stories_RetrieveStoryServer) error {
+	return status.Errorf(codes.Unimplemented, "method RetrieveStory not implemented")
 }
 func (UnimplementedStoriesServer) ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeStatus not implemented")
@@ -448,6 +487,27 @@ type storiesListStoriesServer struct {
 }
 
 func (x *storiesListStoriesServer) Send(m *ResponseListStories) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Stories_RetrieveStory_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RequestRetrieveStory)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(StoriesServer).RetrieveStory(m, &storiesRetrieveStoryServer{stream})
+}
+
+type Stories_RetrieveStoryServer interface {
+	Send(*ResponseRetrieveStory) error
+	grpc.ServerStream
+}
+
+type storiesRetrieveStoryServer struct {
+	grpc.ServerStream
+}
+
+func (x *storiesRetrieveStoryServer) Send(m *ResponseRetrieveStory) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -660,6 +720,11 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ListStories",
 			Handler:       _Stories_ListStories_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "RetrieveStory",
+			Handler:       _Stories_RetrieveStory_Handler,
 			ServerStreams: true,
 		},
 	},
