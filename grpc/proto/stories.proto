@@ -152,15 +152,17 @@ message FilterMyStories {
   int64 EndPublishedAt = 5;
 }
 
+// ================= sorts ================= //
+
 // StoriesSort ...
 message StoriesSort {
-  enum SortBy {
+  enum FieldBy {
     IGNORE = 0;
     TITLE = 1;
     PUBLISHED_AT = 2;
     CREATED_AT = 3;
   }
-  SortBy By = 1;
+  FieldBy By = 1;
   bool Descendent = 2;
 }
 

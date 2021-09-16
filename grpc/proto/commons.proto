@@ -50,9 +50,10 @@ message ChapterInfo {
   string ID = 1;
   string Title = 2;
   string Cover = 3;
-  int32 NumberPages = 4; 
+  int32 NumberPages = 4;
   int32 Position = 5;
   StatusType Status = 6;
+  int64 ReadingTime = 7;
 }
 
 // BookmarkInfo ...
@@ -129,20 +130,21 @@ message Chapter {
 
   int32 Position = 6;
   int32 NumberPages = 7;
+  int64 ReadingTime = 8;
 
-  string StoryID = 8;
-  string WriterID = 9;
+  string StoryID = 9;
+  string WriterID = 10;
 
-  int64 CreatedAt = 10;
-  int64 UpdatedAt = 11;
-  int64 PublishedAt = 12;
+  int64 CreatedAt = 11;
+  int64 UpdatedAt = 12;
+  int64 PublishedAt = 13;
 
-  int64 TotalComments = 13;
-  int64 TotalReadings = 14;
-  int64 TotalShared = 15;
-  int64 TotalCoffees = 16;
+  int64 TotalComments = 14;
+  int64 TotalReadings = 15;
+  int64 TotalShared = 16;
+  int64 TotalCoffees = 17;
 
-  repeated TotalReactionInfo TotalReactions = 17;
+  repeated TotalReactionInfo TotalReactions = 18;
 }
 
 // ================= types ================= //
@@ -199,4 +201,3 @@ enum CommentModerationType {
   CMT_MANUAL = 2;
   CMT_KATHE = 3;
 }
-
