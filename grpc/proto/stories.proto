@@ -139,7 +139,7 @@ message RequestChangeCover {
 // RequestMyStories ...
 message RequestMyStories {
   bool LoadTotal = 1;
-  FilterMyStories Filter = 2;
+  FilterStories Filter = 2;
   StoriesSort Sort = 3;
   Paginator Paginator = 4;
 }
@@ -147,21 +147,22 @@ message RequestMyStories {
 // RequestListStories ...
 message RequestListStories {
   bool LoadTotal = 1;
-  FilterMyStories Filter = 2;
+  FilterStories Filter = 2;
   StoriesSort Sort = 3;
   Paginator Paginator = 4;
 }
 
 // ================= filters ================= //
 
-// FilterMyStories ...
-message FilterMyStories {
+// FilterStories ...
+message FilterStories {
   StatusType Status = 1;
   // WordsOnTitle palabras q contiene el titulo
   string WordsOnTitle = 2;
   string CategoryID = 3;
   int64 StartPublishedAt = 4;
   int64 EndPublishedAt = 5;
+  bool IsFinished = 6;
 }
 
 // ================= sorts ================= //
