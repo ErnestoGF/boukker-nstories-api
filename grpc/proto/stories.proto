@@ -27,13 +27,14 @@ service stories {
   // MyStories lista las historias del usuario logueado
   rpc MyStories(RequestMyStories) returns (stream ResponseMyStories);
 
-  // ListStories lista historias
+  // ListStories lista historias publicas
   rpc ListStories(RequestListStories) returns (stream ResponseListStories);
 
-  
   // RetrieveStory recupera una historia
-  rpc RetrieveStory(RequestRetrieveStory) returns (ResponseRetrieveStory);
-
+  //
+  // Si la historia NO es publica solo se retorna si el usuario logueado es su
+  // escritor o si la peticion es callType=SYSTEM.
+  rpc RetrieveStory(RequestID) returns (ResponseRetrieveStory);
 
   // === commons story and chapters === //
 
@@ -68,7 +69,16 @@ service stories {
   rpc RemoveChapterCover(RequestRemoveChapterCover)
       returns (google.protobuf.Empty);
 
-  // ReadChapter leer un capitulo de una historia
+  // RetrieveStory recupera un capitulo
+  //
+  // Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario logueado es su
+  // escritor o si la peticion es callType=SYSTEM.
+  rpc RetrieveChapter(RequestID) returns (ResponseRetrieveChapter);
+
+  // ReadChapter leer un capitulo de una historia.
+  //
+  // Si el capitulo o la historia NO son publicos solo se retorna si el usuario logueado es su
+  // escrito.
   rpc ReadChapter(RequestID) returns (ResponseReadChapter);
 }
 
@@ -157,11 +167,6 @@ message RequestListStories {
   Paginator Paginator = 4;
 }
 
-// RequestRetrieveStory ...
-message RequestRetrieveStory {
-  string ID = 1;
-}
-
 // ================= filters ================= //
 
 // FilterMyStories ...
@@ -215,6 +220,4 @@ message ResponseListStories {
 }
 
 // ResponseRetrieveStory ...
-message ResponseRetrieveStory {
-  Story Story = 1;
-}
+message ResponseRetrieveStory { Story Story = 1; }

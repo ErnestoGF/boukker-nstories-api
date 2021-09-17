@@ -29,10 +29,13 @@ type StoriesClient interface {
 	RemoveStory(ctx context.Context, in *RequestRemoveStory, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// MyStories lista las historias del usuario logueado
 	MyStories(ctx context.Context, in *RequestMyStories, opts ...grpc.CallOption) (Stories_MyStoriesClient, error)
-	// ListStories lista historias
+	// ListStories lista historias publicas
 	ListStories(ctx context.Context, in *RequestListStories, opts ...grpc.CallOption) (Stories_ListStoriesClient, error)
 	// RetrieveStory recupera una historia
-	RetrieveStory(ctx context.Context, in *RequestRetrieveStory, opts ...grpc.CallOption) (*ResponseRetrieveStory, error)
+	//
+	// Si la historia NO es publica solo se retorna si el usuario logueado es su
+	// escritor o si la peticion es callType=SYSTEM.
+	RetrieveStory(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveStory, error)
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -54,7 +57,15 @@ type StoriesClient interface {
 	RemoveChapter(ctx context.Context, in *RequestRemoveChapter, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RemoveChapterCover ...
 	RemoveChapterCover(ctx context.Context, in *RequestRemoveChapterCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// ReadChapter leer un capitulo de una historia
+	// RetrieveStory recupera un capitulo
+	//
+	// Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario logueado es su
+	// escritor o si la peticion es callType=SYSTEM.
+	RetrieveChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveChapter, error)
+	// ReadChapter leer un capitulo de una historia.
+	//
+	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario logueado es su
+	// escrito.
 	ReadChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseReadChapter, error)
 }
 
@@ -166,7 +177,7 @@ func (x *storiesListStoriesClient) Recv() (*ResponseListStories, error) {
 	return m, nil
 }
 
-func (c *storiesClient) RetrieveStory(ctx context.Context, in *RequestRetrieveStory, opts ...grpc.CallOption) (*ResponseRetrieveStory, error) {
+func (c *storiesClient) RetrieveStory(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveStory, error) {
 	out := new(ResponseRetrieveStory)
 	err := c.cc.Invoke(ctx, "/stories.stories/RetrieveStory", in, out, opts...)
 	if err != nil {
@@ -238,6 +249,15 @@ func (c *storiesClient) RemoveChapterCover(ctx context.Context, in *RequestRemov
 	return out, nil
 }
 
+func (c *storiesClient) RetrieveChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveChapter, error) {
+	out := new(ResponseRetrieveChapter)
+	err := c.cc.Invoke(ctx, "/stories.stories/RetrieveChapter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storiesClient) ReadChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseReadChapter, error) {
 	out := new(ResponseReadChapter)
 	err := c.cc.Invoke(ctx, "/stories.stories/ReadChapter", in, out, opts...)
@@ -261,10 +281,13 @@ type StoriesServer interface {
 	RemoveStory(context.Context, *RequestRemoveStory) (*emptypb.Empty, error)
 	// MyStories lista las historias del usuario logueado
 	MyStories(*RequestMyStories, Stories_MyStoriesServer) error
-	// ListStories lista historias
+	// ListStories lista historias publicas
 	ListStories(*RequestListStories, Stories_ListStoriesServer) error
 	// RetrieveStory recupera una historia
-	RetrieveStory(context.Context, *RequestRetrieveStory) (*ResponseRetrieveStory, error)
+	//
+	// Si la historia NO es publica solo se retorna si el usuario logueado es su
+	// escritor o si la peticion es callType=SYSTEM.
+	RetrieveStory(context.Context, *RequestID) (*ResponseRetrieveStory, error)
 	// ChangeStatus cambia el estado de la historia y/o capitulos.
 	//
 	// Acciones:
@@ -286,7 +309,15 @@ type StoriesServer interface {
 	RemoveChapter(context.Context, *RequestRemoveChapter) (*emptypb.Empty, error)
 	// RemoveChapterCover ...
 	RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error)
-	// ReadChapter leer un capitulo de una historia
+	// RetrieveStory recupera un capitulo
+	//
+	// Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario logueado es su
+	// escritor o si la peticion es callType=SYSTEM.
+	RetrieveChapter(context.Context, *RequestID) (*ResponseRetrieveChapter, error)
+	// ReadChapter leer un capitulo de una historia.
+	//
+	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario logueado es su
+	// escrito.
 	ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error)
 	mustEmbedUnimplementedStoriesServer()
 }
@@ -313,7 +344,7 @@ func (UnimplementedStoriesServer) MyStories(*RequestMyStories, Stories_MyStories
 func (UnimplementedStoriesServer) ListStories(*RequestListStories, Stories_ListStoriesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListStories not implemented")
 }
-func (UnimplementedStoriesServer) RetrieveStory(context.Context, *RequestRetrieveStory) (*ResponseRetrieveStory, error) {
+func (UnimplementedStoriesServer) RetrieveStory(context.Context, *RequestID) (*ResponseRetrieveStory, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RetrieveStory not implemented")
 }
 func (UnimplementedStoriesServer) ChangeStatus(context.Context, *RequestChangeStoryStatus) (*emptypb.Empty, error) {
@@ -336,6 +367,9 @@ func (UnimplementedStoriesServer) RemoveChapter(context.Context, *RequestRemoveC
 }
 func (UnimplementedStoriesServer) RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveChapterCover not implemented")
+}
+func (UnimplementedStoriesServer) RetrieveChapter(context.Context, *RequestID) (*ResponseRetrieveChapter, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RetrieveChapter not implemented")
 }
 func (UnimplementedStoriesServer) ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadChapter not implemented")
@@ -468,7 +502,7 @@ func (x *storiesListStoriesServer) Send(m *ResponseListStories) error {
 }
 
 func _Stories_RetrieveStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestRetrieveStory)
+	in := new(RequestID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -480,7 +514,7 @@ func _Stories_RetrieveStory_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/stories.stories/RetrieveStory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StoriesServer).RetrieveStory(ctx, req.(*RequestRetrieveStory))
+		return srv.(StoriesServer).RetrieveStory(ctx, req.(*RequestID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -611,6 +645,24 @@ func _Stories_RemoveChapterCover_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_RetrieveChapter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).RetrieveChapter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/RetrieveChapter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).RetrieveChapter(ctx, req.(*RequestID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Stories_ReadChapter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestID)
 	if err := dec(in); err != nil {
@@ -683,6 +735,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveChapterCover",
 			Handler:    _Stories_RemoveChapterCover_Handler,
+		},
+		{
+			MethodName: "RetrieveChapter",
+			Handler:    _Stories_RetrieveChapter_Handler,
 		},
 		{
 			MethodName: "ReadChapter",

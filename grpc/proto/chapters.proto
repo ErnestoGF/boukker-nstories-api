@@ -40,6 +40,9 @@ message RequestRemoveChapterCover { string ID = 1; }
 
 // ================= responses ================= //
 
+// ResponseRetrieveChapter ...
+message ResponseRetrieveChapter { Chapter Chapter = 1; }
+
 // ResponseReadChapter ...
 message ResponseReadChapter {
   Story Story = 1;
