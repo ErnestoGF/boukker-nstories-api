@@ -54,8 +54,5 @@ message ResponseReadChapter {
   repeated StoryInfo WriterStories = 4;
   repeated StoryInfo RecommendedStories = 5;
 
-  int64 ReadingTime = 6;
-  int64 ReadingTimeRangeError = 7;
-
   BookmarkInfo Bookmark = 8;
 }

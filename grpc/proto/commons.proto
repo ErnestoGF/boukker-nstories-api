@@ -54,6 +54,7 @@ message ChapterInfo {
   int32 Position = 5;
   StatusType Status = 6;
   int64 ReadingTime = 7;
+  int64 ReadingTimeRangeError = 8;
 }
 
 // BookmarkInfo ...
@@ -131,20 +132,21 @@ message Chapter {
   int32 Position = 6;
   int32 NumberPages = 7;
   int64 ReadingTime = 8;
+  int64 ReadingTimeRangeError = 9;
 
-  string StoryID = 9;
-  string WriterID = 10;
+  string StoryID = 10;
+  string WriterID = 11;
 
-  int64 CreatedAt = 11;
-  int64 UpdatedAt = 12;
-  int64 PublishedAt = 13;
+  int64 CreatedAt = 12;
+  int64 UpdatedAt = 13;
+  int64 PublishedAt = 14;
 
-  int64 TotalComments = 14;
-  int64 TotalReadings = 15;
-  int64 TotalShared = 16;
-  int64 TotalCoffees = 17;
+  int64 TotalComments = 15;
+  int64 TotalReadings = 16;
+  int64 TotalShared = 17;
+  int64 TotalCoffees = 18;
 
-  repeated TotalReactionInfo TotalReactions = 18;
+  repeated TotalReactionInfo TotalReactions = 19;
 }
 
 // ================= types ================= //
