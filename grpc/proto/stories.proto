@@ -217,5 +217,4 @@ message ResponseListStories {
 // ResponseRetrieveStory ...
 message ResponseRetrieveStory {
   Story Story = 1;
-  repeated Chapter Chapters = 2;
 }
