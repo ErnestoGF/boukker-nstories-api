@@ -49,8 +49,8 @@ const (
 	CodeErrorValidateDescription
 	// CodeErrorValidateID ...
 	CodeErrorValidateID
-	// CodeErrorValidateCheckLanguageOnIA ...
-	CodeErrorValidateCheckLanguageOnIA
+	// CodeErrorValidateCheckLanguageOnKathe ...
+	CodeErrorValidateCheckLanguageOnKathe
 	// CodeErrorValidateDst ...
 	CodeErrorValidateDst
 
@@ -198,11 +198,11 @@ var (
 		Code:     CodeErrorValidateID,
 		Message:  "id is required",
 	}
-	// StatusErrorValidateCheckLanguageOnIA ...
-	StatusErrorValidateCheckLanguageOnIA = &commonsStatus.Status{
+	// StatusErrorValidateCheckLanguageOnKathe ...
+	StatusErrorValidateCheckLanguageOnKathe = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
-		Code:     CodeErrorValidateCheckLanguageOnIA,
-		Message:  "failed check the language-text on ia",
+		Code:     CodeErrorValidateCheckLanguageOnKathe,
+		Message:  "failed check the language-text on kathe",
 	}
 	// StatusErrorValidateDst ...
 	StatusErrorValidateDst = &commonsStatus.Status{
@@ -249,7 +249,7 @@ var (
 	StatusErrorValidatePositionInvalid = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
 		Code:     CodeErrorValidatePositionInvalid,
-		Message:  "first position is not 1 or is ivalid",
+		Message:  "first position is not 1 or is less than 1",
 	}
 	// StatusErrorValidateChaptersOrderNotConsecutive ...
 	StatusErrorValidateChaptersOrderNotConsecutive = &commonsStatus.Status{
@@ -286,23 +286,23 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
 	// ================ validation story ================ //
 
-	CodeErrorValidateAudience:           StatusErrorValidateAudience,
-	CodeErrorValidateCategoryID:         StatusErrorValidateCategoryID,
-	CodeErrorValidateCharacter:          StatusErrorValidateCharacter,
-	CodeErrorValidateClasification:      StatusErrorValidateClasification,
-	CodeErrorValidateCommentsModeration: StatusErrorValidateCommentsModeration,
-	CodeErrorValidateCopyright:          StatusErrorValidateCopyright,
-	CodeErrorValidateAuthor:             StatusErrorValidateAuthor,
-	CodeErrorValidateLanguageID:         StatusErrorValidateLanguageID,
-	CodeErrorValidateStatus:             StatusErrorValidateStatus,
-	CodeErrorValidateTags:               StatusErrorValidateTags,
-	CodeErrorValidateTag:                StatusErrorValidateTag,
-	CodeErrorValidateTitle:              StatusErrorValidateTitle,
-	CodeErrorValidateTokenCover:         StatusErrorValidateTokenCover,
-	CodeErrorValidateDescription:        StatusErrorValidateDescription,
-	CodeErrorValidateID:                 StatusErrorValidateID,
-	CodeErrorValidateCheckLanguageOnIA:  StatusErrorValidateCheckLanguageOnIA,
-	CodeErrorValidateDst:                StatusErrorValidateDst,
+	CodeErrorValidateAudience:             StatusErrorValidateAudience,
+	CodeErrorValidateCategoryID:           StatusErrorValidateCategoryID,
+	CodeErrorValidateCharacter:            StatusErrorValidateCharacter,
+	CodeErrorValidateClasification:        StatusErrorValidateClasification,
+	CodeErrorValidateCommentsModeration:   StatusErrorValidateCommentsModeration,
+	CodeErrorValidateCopyright:            StatusErrorValidateCopyright,
+	CodeErrorValidateAuthor:               StatusErrorValidateAuthor,
+	CodeErrorValidateLanguageID:           StatusErrorValidateLanguageID,
+	CodeErrorValidateStatus:               StatusErrorValidateStatus,
+	CodeErrorValidateTags:                 StatusErrorValidateTags,
+	CodeErrorValidateTag:                  StatusErrorValidateTag,
+	CodeErrorValidateTitle:                StatusErrorValidateTitle,
+	CodeErrorValidateTokenCover:           StatusErrorValidateTokenCover,
+	CodeErrorValidateDescription:          StatusErrorValidateDescription,
+	CodeErrorValidateID:                   StatusErrorValidateID,
+	CodeErrorValidateCheckLanguageOnKathe: StatusErrorValidateCheckLanguageOnKathe,
+	CodeErrorValidateDst:                  StatusErrorValidateDst,
 
 	CodeErrorValidateStoryFinished:                   StatusErrorValidateStoryFinished,
 	CodeErrorValidateStoryWithoutChaptersNotFinished: StatusErrorValidateStoryWithoutChaptersNotFinished,

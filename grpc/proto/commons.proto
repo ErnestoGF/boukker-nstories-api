@@ -151,10 +151,12 @@ message Chapter {
 
 // ================= types ================= //
 
+// StatusType ...
 enum StatusType {
   ST_IGNORE = 0;
-  ST_DRAFT = 1;
-  ST_PUBLIC = 2;
+  ST_DISABLED = 1; // se desabilita la historia
+  ST_DRAFT = 2;
+  ST_PUBLIC = 3;
 }
 
 // ReactionType ...
