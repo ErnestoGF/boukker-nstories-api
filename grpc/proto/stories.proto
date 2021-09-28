@@ -93,8 +93,8 @@ service stories {
   // RemoveBookmark elimina un marcador
   rpc RemoveBookmark(RequestID) returns (google.protobuf.Empty);
 
-  // ListMyBookmarks lista mis marcadores
-  rpc ListMyBookmarks(RequestListStories) returns (stream ResponseListMyBookmarks);
+  // MyBookmarks lista mis marcadores
+  rpc MyBookmarks(RequestMyBookmarks) returns (stream ResponseMyBookmarks);
 }
 
 // ================= requests ================= //

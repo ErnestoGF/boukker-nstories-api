@@ -22,10 +22,17 @@ message RequestEditBookmark {
   string Path = 3;
 }
 
+// RequestMyBookmarks ...
+message RequestMyBookmarks {
+  bool LoadTotal = 1;
+  Paginator Paginator = 4;
+}
+
+
 // ================= response ================= //
 
-// ResponseListMyBookmarks ...
-message ResponseListMyBookmarks {
+// ResponseMyBookmarks ...
+message ResponseMyBookmarks {
   uint64 Total = 1;
   repeated Bookmark Bookmarks = 2;
 }

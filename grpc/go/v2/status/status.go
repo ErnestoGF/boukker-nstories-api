@@ -330,6 +330,8 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
 	CodeErrorIDRequired: StatusErrorIDRequired,
 
+	CodeBookmarkNotFound: StatusBookmarkNotFound,
+
 	// ================ validation story ================ //
 
 	CodeErrorValidateAudience:             StatusErrorValidateAudience,

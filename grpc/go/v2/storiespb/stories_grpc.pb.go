@@ -73,8 +73,8 @@ type StoriesClient interface {
 	EditBookmark(ctx context.Context, in *RequestEditBookmark, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RemoveBookmark elimina un marcador
 	RemoveBookmark(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// ListMyBookmarks lista mis marcadores
-	ListMyBookmarks(ctx context.Context, in *RequestListStories, opts ...grpc.CallOption) (Stories_ListMyBookmarksClient, error)
+	// MyBookmarks lista mis marcadores
+	MyBookmarks(ctx context.Context, in *RequestMyBookmarks, opts ...grpc.CallOption) (Stories_MyBookmarksClient, error)
 }
 
 type storiesClient struct {
@@ -302,12 +302,12 @@ func (c *storiesClient) RemoveBookmark(ctx context.Context, in *RequestID, opts 
 	return out, nil
 }
 
-func (c *storiesClient) ListMyBookmarks(ctx context.Context, in *RequestListStories, opts ...grpc.CallOption) (Stories_ListMyBookmarksClient, error) {
-	stream, err := c.cc.NewStream(ctx, &Stories_ServiceDesc.Streams[2], "/stories.stories/ListMyBookmarks", opts...)
+func (c *storiesClient) MyBookmarks(ctx context.Context, in *RequestMyBookmarks, opts ...grpc.CallOption) (Stories_MyBookmarksClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Stories_ServiceDesc.Streams[2], "/stories.stories/MyBookmarks", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &storiesListMyBookmarksClient{stream}
+	x := &storiesMyBookmarksClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -317,17 +317,17 @@ func (c *storiesClient) ListMyBookmarks(ctx context.Context, in *RequestListStor
 	return x, nil
 }
 
-type Stories_ListMyBookmarksClient interface {
-	Recv() (*ResponseListMyBookmarks, error)
+type Stories_MyBookmarksClient interface {
+	Recv() (*ResponseMyBookmarks, error)
 	grpc.ClientStream
 }
 
-type storiesListMyBookmarksClient struct {
+type storiesMyBookmarksClient struct {
 	grpc.ClientStream
 }
 
-func (x *storiesListMyBookmarksClient) Recv() (*ResponseListMyBookmarks, error) {
-	m := new(ResponseListMyBookmarks)
+func (x *storiesMyBookmarksClient) Recv() (*ResponseMyBookmarks, error) {
+	m := new(ResponseMyBookmarks)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -392,8 +392,8 @@ type StoriesServer interface {
 	EditBookmark(context.Context, *RequestEditBookmark) (*emptypb.Empty, error)
 	// RemoveBookmark elimina un marcador
 	RemoveBookmark(context.Context, *RequestID) (*emptypb.Empty, error)
-	// ListMyBookmarks lista mis marcadores
-	ListMyBookmarks(*RequestListStories, Stories_ListMyBookmarksServer) error
+	// MyBookmarks lista mis marcadores
+	MyBookmarks(*RequestMyBookmarks, Stories_MyBookmarksServer) error
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -458,8 +458,8 @@ func (UnimplementedStoriesServer) EditBookmark(context.Context, *RequestEditBook
 func (UnimplementedStoriesServer) RemoveBookmark(context.Context, *RequestID) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveBookmark not implemented")
 }
-func (UnimplementedStoriesServer) ListMyBookmarks(*RequestListStories, Stories_ListMyBookmarksServer) error {
-	return status.Errorf(codes.Unimplemented, "method ListMyBookmarks not implemented")
+func (UnimplementedStoriesServer) MyBookmarks(*RequestMyBookmarks, Stories_MyBookmarksServer) error {
+	return status.Errorf(codes.Unimplemented, "method MyBookmarks not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -822,24 +822,24 @@ func _Stories_RemoveBookmark_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Stories_ListMyBookmarks_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(RequestListStories)
+func _Stories_MyBookmarks_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RequestMyBookmarks)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(StoriesServer).ListMyBookmarks(m, &storiesListMyBookmarksServer{stream})
+	return srv.(StoriesServer).MyBookmarks(m, &storiesMyBookmarksServer{stream})
 }
 
-type Stories_ListMyBookmarksServer interface {
-	Send(*ResponseListMyBookmarks) error
+type Stories_MyBookmarksServer interface {
+	Send(*ResponseMyBookmarks) error
 	grpc.ServerStream
 }
 
-type storiesListMyBookmarksServer struct {
+type storiesMyBookmarksServer struct {
 	grpc.ServerStream
 }
 
-func (x *storiesListMyBookmarksServer) Send(m *ResponseListMyBookmarks) error {
+func (x *storiesMyBookmarksServer) Send(m *ResponseMyBookmarks) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -931,8 +931,8 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "ListMyBookmarks",
-			Handler:       _Stories_ListMyBookmarks_Handler,
+			StreamName:    "MyBookmarks",
+			Handler:       _Stories_MyBookmarks_Handler,
 			ServerStreams: true,
 		},
 	},
