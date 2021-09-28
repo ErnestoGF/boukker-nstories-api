@@ -121,6 +121,13 @@ var (
 		Message:  "id is required",
 	}
 
+	// StatusStoryNotFound ...
+	StatusBookmarkNotFound = &commonsStatus.Status{
+		CodeGRPC: codes.NotFound,
+		Code:     CodeBookmarkNotFound,
+		Message:  "bookmark not found",
+	}
+
 	// ================ validation story ================ //
 
 	// StatusErrorValidateAudience ...
