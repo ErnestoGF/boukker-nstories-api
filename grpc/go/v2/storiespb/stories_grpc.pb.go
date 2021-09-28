@@ -59,14 +59,22 @@ type StoriesClient interface {
 	RemoveChapterCover(ctx context.Context, in *RequestRemoveChapterCover, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// RetrieveStory recupera un capitulo
 	//
-	// Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario logueado es su
-	// escritor o si la peticion es callType=SYSTEM.
+	// Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario
+	// logueado es su escritor o si la peticion es callType=SYSTEM.
 	RetrieveChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveChapter, error)
 	// ReadChapter leer un capitulo de una historia.
 	//
-	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario logueado es su
-	// escrito.
+	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario
+	// logueado es su escrito.
 	ReadChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseReadChapter, error)
+	// CreateBookmark marca un capitulo
+	CreateBookmark(ctx context.Context, in *RequestCreateBookmark, opts ...grpc.CallOption) (*ResponseID, error)
+	// EditBookmark edita un marcador
+	EditBookmark(ctx context.Context, in *RequestEditBookmark, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// RemoveBookmark elimina un marcador
+	RemoveBookmark(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// ListMyBookmarks lista mis marcadores
+	ListMyBookmarks(ctx context.Context, in *RequestListStories, opts ...grpc.CallOption) (Stories_ListMyBookmarksClient, error)
 }
 
 type storiesClient struct {
@@ -267,6 +275,65 @@ func (c *storiesClient) ReadChapter(ctx context.Context, in *RequestID, opts ...
 	return out, nil
 }
 
+func (c *storiesClient) CreateBookmark(ctx context.Context, in *RequestCreateBookmark, opts ...grpc.CallOption) (*ResponseID, error) {
+	out := new(ResponseID)
+	err := c.cc.Invoke(ctx, "/stories.stories/CreateBookmark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) EditBookmark(ctx context.Context, in *RequestEditBookmark, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/EditBookmark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) RemoveBookmark(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/RemoveBookmark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) ListMyBookmarks(ctx context.Context, in *RequestListStories, opts ...grpc.CallOption) (Stories_ListMyBookmarksClient, error) {
+	stream, err := c.cc.NewStream(ctx, &Stories_ServiceDesc.Streams[2], "/stories.stories/ListMyBookmarks", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &storiesListMyBookmarksClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Stories_ListMyBookmarksClient interface {
+	Recv() (*ResponseListMyBookmarks, error)
+	grpc.ClientStream
+}
+
+type storiesListMyBookmarksClient struct {
+	grpc.ClientStream
+}
+
+func (x *storiesListMyBookmarksClient) Recv() (*ResponseListMyBookmarks, error) {
+	m := new(ResponseListMyBookmarks)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // StoriesServer is the server API for Stories service.
 // All implementations must embed UnimplementedStoriesServer
 // for forward compatibility
@@ -311,14 +378,22 @@ type StoriesServer interface {
 	RemoveChapterCover(context.Context, *RequestRemoveChapterCover) (*emptypb.Empty, error)
 	// RetrieveStory recupera un capitulo
 	//
-	// Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario logueado es su
-	// escritor o si la peticion es callType=SYSTEM.
+	// Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario
+	// logueado es su escritor o si la peticion es callType=SYSTEM.
 	RetrieveChapter(context.Context, *RequestID) (*ResponseRetrieveChapter, error)
 	// ReadChapter leer un capitulo de una historia.
 	//
-	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario logueado es su
-	// escrito.
+	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario
+	// logueado es su escrito.
 	ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error)
+	// CreateBookmark marca un capitulo
+	CreateBookmark(context.Context, *RequestCreateBookmark) (*ResponseID, error)
+	// EditBookmark edita un marcador
+	EditBookmark(context.Context, *RequestEditBookmark) (*emptypb.Empty, error)
+	// RemoveBookmark elimina un marcador
+	RemoveBookmark(context.Context, *RequestID) (*emptypb.Empty, error)
+	// ListMyBookmarks lista mis marcadores
+	ListMyBookmarks(*RequestListStories, Stories_ListMyBookmarksServer) error
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -373,6 +448,18 @@ func (UnimplementedStoriesServer) RetrieveChapter(context.Context, *RequestID) (
 }
 func (UnimplementedStoriesServer) ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadChapter not implemented")
+}
+func (UnimplementedStoriesServer) CreateBookmark(context.Context, *RequestCreateBookmark) (*ResponseID, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBookmark not implemented")
+}
+func (UnimplementedStoriesServer) EditBookmark(context.Context, *RequestEditBookmark) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditBookmark not implemented")
+}
+func (UnimplementedStoriesServer) RemoveBookmark(context.Context, *RequestID) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveBookmark not implemented")
+}
+func (UnimplementedStoriesServer) ListMyBookmarks(*RequestListStories, Stories_ListMyBookmarksServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListMyBookmarks not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -681,6 +768,81 @@ func _Stories_ReadChapter_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_CreateBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestCreateBookmark)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).CreateBookmark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/CreateBookmark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).CreateBookmark(ctx, req.(*RequestCreateBookmark))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_EditBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestEditBookmark)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).EditBookmark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/EditBookmark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).EditBookmark(ctx, req.(*RequestEditBookmark))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_RemoveBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).RemoveBookmark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/RemoveBookmark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).RemoveBookmark(ctx, req.(*RequestID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Stories_ListMyBookmarks_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RequestListStories)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(StoriesServer).ListMyBookmarks(m, &storiesListMyBookmarksServer{stream})
+}
+
+type Stories_ListMyBookmarksServer interface {
+	Send(*ResponseListMyBookmarks) error
+	grpc.ServerStream
+}
+
+type storiesListMyBookmarksServer struct {
+	grpc.ServerStream
+}
+
+func (x *storiesListMyBookmarksServer) Send(m *ResponseListMyBookmarks) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // Stories_ServiceDesc is the grpc.ServiceDesc for Stories service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -744,6 +906,18 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ReadChapter",
 			Handler:    _Stories_ReadChapter_Handler,
 		},
+		{
+			MethodName: "CreateBookmark",
+			Handler:    _Stories_CreateBookmark_Handler,
+		},
+		{
+			MethodName: "EditBookmark",
+			Handler:    _Stories_EditBookmark_Handler,
+		},
+		{
+			MethodName: "RemoveBookmark",
+			Handler:    _Stories_RemoveBookmark_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -754,6 +928,11 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ListStories",
 			Handler:       _Stories_ListStories_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListMyBookmarks",
+			Handler:       _Stories_ListMyBookmarks_Handler,
 			ServerStreams: true,
 		},
 	},

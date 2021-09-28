@@ -8,6 +8,7 @@ import "google/protobuf/empty.proto";
 
 import "commons.proto";
 import "chapters.proto";
+import "bookmarks.proto";
 
 service stories {
   // ================= stories ================= //
@@ -71,15 +72,29 @@ service stories {
 
   // RetrieveStory recupera un capitulo
   //
-  // Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario logueado es su
-  // escritor o si la peticion es callType=SYSTEM.
+  // Si el capitulo o la hsitoria NO son publicos solo se retorna si el usuario
+  // logueado es su escritor o si la peticion es callType=SYSTEM.
   rpc RetrieveChapter(RequestID) returns (ResponseRetrieveChapter);
 
   // ReadChapter leer un capitulo de una historia.
   //
-  // Si el capitulo o la historia NO son publicos solo se retorna si el usuario logueado es su
-  // escrito.
+  // Si el capitulo o la historia NO son publicos solo se retorna si el usuario
+  // logueado es su escrito.
   rpc ReadChapter(RequestID) returns (ResponseReadChapter);
+
+  // ================= bookmarks ================= //
+
+  // CreateBookmark marca un capitulo
+  rpc CreateBookmark(RequestCreateBookmark) returns (ResponseID);
+
+  // EditBookmark edita un marcador
+  rpc EditBookmark(RequestEditBookmark) returns (google.protobuf.Empty);
+
+  // RemoveBookmark elimina un marcador
+  rpc RemoveBookmark(RequestID) returns (google.protobuf.Empty);
+
+  // ListMyBookmarks lista mis marcadores
+  rpc ListMyBookmarks(RequestListStories) returns (stream ResponseListMyBookmarks);
 }
 
 // ================= requests ================= //

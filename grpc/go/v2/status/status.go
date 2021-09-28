@@ -77,6 +77,11 @@ const (
 	CodeErrorValidateNoneIDMatchChaptersID
 	// CodeErrorValidateItemsRequired ...
 	CodeErrorValidateItemsRequired
+
+	// ================ validation list stories ================ //
+
+	// CodeErrorValidateListStoriesFilterRangePublished valida el rango de fecha
+	CodeErrorValidateListStoriesFilterRangePublished
 )
 
 var (
@@ -275,6 +280,15 @@ var (
 		Code:     CodeErrorValidateItemsRequired,
 		Message:  "items are required",
 	}
+
+	// ================ validation list stories ================ //
+
+	// StatusErrorValidateListStoriesFilterRangePublished ...
+	StatusErrorValidateListStoriesFilterRangePublished = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateListStoriesFilterRangePublished,
+		Message:  "filter range published at is invalid",
+	}
 )
 var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
@@ -318,6 +332,10 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidateAllIDRequired:               StatusErrorValidateAllIDRequired,
 	CodeErrorValidateNoneIDMatchChaptersID:       StatusErrorValidateNoneIDMatchChaptersID,
 	CodeErrorValidateItemsRequired:               StatusErrorValidateItemsRequired,
+
+	// ================ validation list stories ================ //
+
+	CodeErrorValidateListStoriesFilterRangePublished: StatusErrorValidateListStoriesFilterRangePublished,
 }
 
 // FromCode ...

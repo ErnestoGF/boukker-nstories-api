@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package stories;
+
+option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storiespb";
+
+import "commons.proto";
+
+// ================= requests ================= //
+
+// RequestCreateBookmark ...
+message RequestCreateBookmark {
+  string ChapterID = 1;
+  string Abstract = 2;
+  string Path = 3;
+}
+
+// RequestEditBookmark ...
+message RequestEditBookmark {
+  string ID = 1;
+  string Abstract = 2;
+  string Path = 3;
+}
+
+// ================= response ================= //
+
+// ResponseListMyBookmarks ...
+message ResponseListMyBookmarks {
+  uint64 Total = 1;
+  repeated Bookmark Bookmarks = 2;
+}
+
+// ================= response models ================= //
+
+// Bookmark ...
+message Bookmark {
+  string ID = 1;
+  string UserID = 2;
+  ChapterInfo Chapter = 3;
+  string StoryID = 4;
+  string Abstract = 5;
+  string Path = 6;
+  int64 CreatedAt = 7;
+  int64 UpdatedAt = 8;
+}

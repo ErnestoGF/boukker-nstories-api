@@ -5,4 +5,5 @@ protoc -I=../proto/ \
 --go-grpc_opt=paths=source_relative --go-grpc_out=v2/storiespb \
 ../proto/commons.proto \
 ../proto/chapters.proto \
-../proto/stories.proto
+../proto/stories.proto \
+../proto/bookmarks.proto
