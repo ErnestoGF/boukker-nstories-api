@@ -24,10 +24,12 @@ message RequestEditBookmark {
 
 // RequestMyBookmarks ...
 message RequestMyBookmarks {
-  bool LoadTotal = 1;
-  Paginator Paginator = 4;
+  LoadBookmarkType Load = 1;
+  bool LoadTotal = 2;
+  FilterMyBookmarks Filter = 3;
+  BookmarkSort Sort = 4;
+  Paginator Paginator = 5;
 }
-
 
 // ================= response ================= //
 
@@ -37,16 +39,55 @@ message ResponseMyBookmarks {
   repeated Bookmark Bookmarks = 2;
 }
 
+// ================= request models ================= //
+
 // ================= response models ================= //
 
 // Bookmark ...
 message Bookmark {
   string ID = 1;
   string UserID = 2;
-  ChapterInfo Chapter = 3;
-  string StoryID = 4;
-  string Abstract = 5;
-  string Path = 6;
-  int64 CreatedAt = 7;
-  int64 UpdatedAt = 8;
+  StorySimple Story = 3;
+  ChapterInfo Chapter = 4;
+  string Abstract = 6;
+  string Path = 7;
+  int64 CreatedAt = 8;
+  int64 UpdatedAt = 9;
+}
+
+// ================= filters ================= //
+
+// FilterMyBookmarks ...
+message FilterMyBookmarks {
+  string StoryWriterID = 1;
+  // WordsOnTitle palabras q contiene el titulo
+  string StoryWordsOnTitle = 2;
+  repeated string StoryCategoriesID = 3;
+  int64 StoryStartPublishedAt = 4;
+  int64 StoryEndPublishedAt = 5;
+  BoolOption StoryIsFinished = 6;
+}
+
+// ================= sort ================= //
+
+// BookmarkSort ...
+message BookmarkSort {
+  enum FieldBy {
+    IGNORE = 0;
+    STORY_TITLE = 1;
+    STORY_WRITER = 2;
+    BOOKMARK_CREATED_AT = 3;
+    BOOKMARK_UPDATED_AT = 4;
+  }
+  FieldBy By = 1;
+  bool Descendent = 2;
+}
+
+// ================= types ================= //
+
+// LoadBookmarkType ...
+enum LoadBookmarkType {
+  LBT_IGNORE = 0;
+  LBT_BOOKMARK = 1;
+  LBT_READLATER = 2;
 }

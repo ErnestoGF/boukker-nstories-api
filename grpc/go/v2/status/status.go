@@ -83,10 +83,10 @@ const (
 
 	// ================ validation bookmarks ================ //
 
-	// CodeErrorValidateAbstract ...
-	CodeErrorValidateAbstract
-	// CodeErrorValidatePath ...
-	CodeErrorValidatePath
+	// // CodeErrorValidateAbstract ...
+	// CodeErrorValidateAbstract
+	// // CodeErrorValidatePath ...
+	// CodeErrorValidatePath
 
 	// ================ validation list stories ================ //
 
@@ -300,18 +300,18 @@ var (
 
 	// ================ validation bookmark ================ //
 
-	// StatusErrorValidateAbstract ...
-	StatusErrorValidateAbstract = &commonsStatus.Status{
-		CodeGRPC: codes.InvalidArgument,
-		Code:     CodeErrorValidateAbstract,
-		Message:  "the number the characters allowed for the abstract is between 1 and 500",
-	}
-	// StatusErrorValidatePath ...
-	StatusErrorValidatePath = &commonsStatus.Status{
-		CodeGRPC: codes.InvalidArgument,
-		Code:     CodeErrorValidatePath,
-		Message:  "the number the characters allowed for the path is between 1 and 150",
-	}
+	// // StatusErrorValidateAbstract ...
+	// StatusErrorValidateAbstract = &commonsStatus.Status{
+	// 	CodeGRPC: codes.InvalidArgument,
+	// 	Code:     CodeErrorValidateAbstract,
+	// 	Message:  "the number the characters allowed for the abstract is between 1 and 500",
+	// }
+	// // StatusErrorValidatePath ...
+	// StatusErrorValidatePath = &commonsStatus.Status{
+	// 	CodeGRPC: codes.InvalidArgument,
+	// 	Code:     CodeErrorValidatePath,
+	// 	Message:  "the number the characters allowed for the path is between 1 and 150",
+	// }
 
 	// ================ validation list stories ================ //
 
@@ -369,8 +369,8 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
 	// ================ validation bookmark ================ //
 
-	CodeErrorValidatePath:     StatusErrorValidatePath,
-	CodeErrorValidateAbstract: StatusErrorValidateAbstract,
+	// CodeErrorValidatePath:     StatusErrorValidatePath,
+	// CodeErrorValidateAbstract: StatusErrorValidateAbstract,
 
 	// ================ validation list stories ================ //
 

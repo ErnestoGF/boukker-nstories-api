@@ -182,6 +182,29 @@ message RequestListStories {
   Paginator Paginator = 4;
 }
 
+// ================= responses ================= //
+
+// ResponseMyStories ...
+message ResponseMyStories {
+  uint64 Total = 1;
+  repeated Story Stories = 2;
+}
+
+// ResponseListStories ...
+message ResponseListStories {
+  uint64 Total = 1;
+  repeated Story Stories = 2;
+}
+
+// ResponseRetrieveStory ...
+message ResponseRetrieveStory { Story Story = 1; }
+
+// ================= info ================= //
+
+// ================= request models ================= //
+
+// ================= response models ================= //
+
 // ================= filters ================= //
 
 // FilterMyStories ...
@@ -206,7 +229,7 @@ message FilterStories {
   BoolOption IsFinished = 6;
 }
 
-// ================= sorts ================= //
+// ================= sort ================= //
 
 // StoriesSort ...
 message StoriesSort {
@@ -220,19 +243,4 @@ message StoriesSort {
   bool Descendent = 2;
 }
 
-// ================= responses ================= //
-
-// ResponseMyStories ...
-message ResponseMyStories {
-  uint64 Total = 1;
-  repeated Story Stories = 2;
-}
-
-// ResponseListStories ...
-message ResponseListStories {
-  uint64 Total = 1;
-  repeated Story Stories = 2;
-}
-
-// ResponseRetrieveStory ...
-message ResponseRetrieveStory { Story Story = 1; }
+// ================= types ================= //

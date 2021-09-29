@@ -42,7 +42,20 @@ message UserInfo {
 message StoryInfo {
   string ID = 1;
   string Title = 2;
-  string Cover = 3;
+  repeated string Tags = 3;
+  
+  CategoryInfo Category = 4;
+  UserInfo Writer = 5;
+
+  string Cover = 6;
+  int64 PublishedAt = 7;
+}
+
+// StorySimple ...
+message StorySimple {
+  string ID = 1;
+  string Title = 2;
+  string Cover = 6;
 }
 
 // ChapterInfo ...
@@ -68,6 +81,7 @@ message TotalReactionInfo {
   ReactionType Type = 1;
   int64 Total = 2;
 }
+
 // ================= request models ================= //
 
 // Paginator ...
@@ -148,6 +162,10 @@ message Chapter {
 
   repeated TotalReactionInfo TotalReactions = 19;
 }
+
+// ================= filters ================= //
+
+// ================= sort ================= //
 
 // ================= types ================= //
 

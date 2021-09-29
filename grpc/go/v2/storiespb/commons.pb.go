@@ -705,9 +705,13 @@ type StoryInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID    string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	Title string `protobuf:"bytes,2,opt,name=Title,proto3" json:"Title,omitempty"`
-	Cover string `protobuf:"bytes,3,opt,name=Cover,proto3" json:"Cover,omitempty"`
+	ID          string        `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Title       string        `protobuf:"bytes,2,opt,name=Title,proto3" json:"Title,omitempty"`
+	Tags        []string      `protobuf:"bytes,3,rep,name=Tags,proto3" json:"Tags,omitempty"`
+	Category    *CategoryInfo `protobuf:"bytes,4,opt,name=Category,proto3" json:"Category,omitempty"`
+	Writer      *UserInfo     `protobuf:"bytes,5,opt,name=Writer,proto3" json:"Writer,omitempty"`
+	Cover       string        `protobuf:"bytes,6,opt,name=Cover,proto3" json:"Cover,omitempty"`
+	PublishedAt int64         `protobuf:"varint,7,opt,name=PublishedAt,proto3" json:"PublishedAt,omitempty"`
 }
 
 func (x *StoryInfo) Reset() {
@@ -756,7 +760,99 @@ func (x *StoryInfo) GetTitle() string {
 	return ""
 }
 
+func (x *StoryInfo) GetTags() []string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
+}
+
+func (x *StoryInfo) GetCategory() *CategoryInfo {
+	if x != nil {
+		return x.Category
+	}
+	return nil
+}
+
+func (x *StoryInfo) GetWriter() *UserInfo {
+	if x != nil {
+		return x.Writer
+	}
+	return nil
+}
+
 func (x *StoryInfo) GetCover() string {
+	if x != nil {
+		return x.Cover
+	}
+	return ""
+}
+
+func (x *StoryInfo) GetPublishedAt() int64 {
+	if x != nil {
+		return x.PublishedAt
+	}
+	return 0
+}
+
+// StorySimple ...
+type StorySimple struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID    string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Title string `protobuf:"bytes,2,opt,name=Title,proto3" json:"Title,omitempty"`
+	Cover string `protobuf:"bytes,6,opt,name=Cover,proto3" json:"Cover,omitempty"`
+}
+
+func (x *StorySimple) Reset() {
+	*x = StorySimple{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_commons_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StorySimple) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StorySimple) ProtoMessage() {}
+
+func (x *StorySimple) ProtoReflect() protoreflect.Message {
+	mi := &file_commons_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StorySimple.ProtoReflect.Descriptor instead.
+func (*StorySimple) Descriptor() ([]byte, []int) {
+	return file_commons_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *StorySimple) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *StorySimple) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *StorySimple) GetCover() string {
 	if x != nil {
 		return x.Cover
 	}
@@ -782,7 +878,7 @@ type ChapterInfo struct {
 func (x *ChapterInfo) Reset() {
 	*x = ChapterInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[6]
+		mi := &file_commons_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -795,7 +891,7 @@ func (x *ChapterInfo) String() string {
 func (*ChapterInfo) ProtoMessage() {}
 
 func (x *ChapterInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[6]
+	mi := &file_commons_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -808,7 +904,7 @@ func (x *ChapterInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChapterInfo.ProtoReflect.Descriptor instead.
 func (*ChapterInfo) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{6}
+	return file_commons_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ChapterInfo) GetID() string {
@@ -880,7 +976,7 @@ type BookmarkInfo struct {
 func (x *BookmarkInfo) Reset() {
 	*x = BookmarkInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[7]
+		mi := &file_commons_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -893,7 +989,7 @@ func (x *BookmarkInfo) String() string {
 func (*BookmarkInfo) ProtoMessage() {}
 
 func (x *BookmarkInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[7]
+	mi := &file_commons_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -906,7 +1002,7 @@ func (x *BookmarkInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BookmarkInfo.ProtoReflect.Descriptor instead.
 func (*BookmarkInfo) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{7}
+	return file_commons_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *BookmarkInfo) GetID() string {
@@ -936,7 +1032,7 @@ type TotalReactionInfo struct {
 func (x *TotalReactionInfo) Reset() {
 	*x = TotalReactionInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[8]
+		mi := &file_commons_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -949,7 +1045,7 @@ func (x *TotalReactionInfo) String() string {
 func (*TotalReactionInfo) ProtoMessage() {}
 
 func (x *TotalReactionInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[8]
+	mi := &file_commons_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -962,7 +1058,7 @@ func (x *TotalReactionInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TotalReactionInfo.ProtoReflect.Descriptor instead.
 func (*TotalReactionInfo) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{8}
+	return file_commons_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *TotalReactionInfo) GetType() ReactionType {
@@ -992,7 +1088,7 @@ type Paginator struct {
 func (x *Paginator) Reset() {
 	*x = Paginator{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[9]
+		mi := &file_commons_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1005,7 +1101,7 @@ func (x *Paginator) String() string {
 func (*Paginator) ProtoMessage() {}
 
 func (x *Paginator) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[9]
+	mi := &file_commons_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1018,7 +1114,7 @@ func (x *Paginator) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Paginator.ProtoReflect.Descriptor instead.
 func (*Paginator) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{9}
+	return file_commons_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Paginator) GetPage() uint64 {
@@ -1048,7 +1144,7 @@ type Order struct {
 func (x *Order) Reset() {
 	*x = Order{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[10]
+		mi := &file_commons_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1061,7 +1157,7 @@ func (x *Order) String() string {
 func (*Order) ProtoMessage() {}
 
 func (x *Order) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[10]
+	mi := &file_commons_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1074,7 +1170,7 @@ func (x *Order) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Order.ProtoReflect.Descriptor instead.
 func (*Order) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{10}
+	return file_commons_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Order) GetID() string {
@@ -1128,7 +1224,7 @@ type Story struct {
 func (x *Story) Reset() {
 	*x = Story{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[11]
+		mi := &file_commons_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1141,7 +1237,7 @@ func (x *Story) String() string {
 func (*Story) ProtoMessage() {}
 
 func (x *Story) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[11]
+	mi := &file_commons_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1154,7 +1250,7 @@ func (x *Story) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Story.ProtoReflect.Descriptor instead.
 func (*Story) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{11}
+	return file_commons_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Story) GetID() string {
@@ -1369,7 +1465,7 @@ type Chapter struct {
 func (x *Chapter) Reset() {
 	*x = Chapter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_commons_proto_msgTypes[12]
+		mi := &file_commons_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1382,7 +1478,7 @@ func (x *Chapter) String() string {
 func (*Chapter) ProtoMessage() {}
 
 func (x *Chapter) ProtoReflect() protoreflect.Message {
-	mi := &file_commons_proto_msgTypes[12]
+	mi := &file_commons_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1395,7 +1491,7 @@ func (x *Chapter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Chapter.ProtoReflect.Descriptor instead.
 func (*Chapter) Descriptor() ([]byte, []int) {
-	return file_commons_proto_rawDescGZIP(), []int{12}
+	return file_commons_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *Chapter) GetID() string {
@@ -1556,10 +1652,24 @@ var file_commons_proto_rawDesc = []byte{
 	0x75, 0x6c, 0x6c, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x46,
 	0x75, 0x6c, 0x6c, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x41, 0x76, 0x61, 0x74, 0x61,
 	0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x41, 0x76, 0x61, 0x74, 0x61, 0x72, 0x22,
-	0x47, 0x0a, 0x09, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a, 0x02,
+	0xdb, 0x01, 0x0a, 0x09, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a,
+	0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x14, 0x0a,
+	0x05, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x54, 0x69,
+	0x74, 0x6c, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x54, 0x61, 0x67, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28,
+	0x09, 0x52, 0x04, 0x54, 0x61, 0x67, 0x73, 0x12, 0x31, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67,
+	0x6f, 0x72, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x73, 0x74, 0x6f, 0x72,
+	0x69, 0x65, 0x73, 0x2e, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x66, 0x6f,
+	0x52, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x79, 0x12, 0x29, 0x0a, 0x06, 0x57, 0x72,
+	0x69, 0x74, 0x65, 0x72, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x73, 0x74, 0x6f,
+	0x72, 0x69, 0x65, 0x73, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x06, 0x57,
+	0x72, 0x69, 0x74, 0x65, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x43, 0x6f, 0x76, 0x65, 0x72, 0x12, 0x20, 0x0a, 0x0b, 0x50,
+	0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x64, 0x41, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x0b, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x64, 0x41, 0x74, 0x22, 0x49, 0x0a,
+	0x0b, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x53, 0x69, 0x6d, 0x70, 0x6c, 0x65, 0x12, 0x0e, 0x0a, 0x02,
 	0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05,
 	0x54, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x54, 0x69, 0x74,
-	0x6c, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x6c, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x05, 0x43, 0x6f, 0x76, 0x65, 0x72, 0x22, 0x8c, 0x02, 0x0a, 0x0b, 0x43, 0x68, 0x61,
 	0x70, 0x74, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x54, 0x69, 0x74, 0x6c,
@@ -1767,7 +1877,7 @@ func file_commons_proto_rawDescGZIP() []byte {
 }
 
 var file_commons_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_commons_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_commons_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_commons_proto_goTypes = []interface{}{
 	(StatusType)(0),            // 0: stories.StatusType
 	(ReactionType)(0),          // 1: stories.ReactionType
@@ -1782,34 +1892,37 @@ var file_commons_proto_goTypes = []interface{}{
 	(*LanguageInfo)(nil),       // 10: stories.LanguageInfo
 	(*UserInfo)(nil),           // 11: stories.UserInfo
 	(*StoryInfo)(nil),          // 12: stories.StoryInfo
-	(*ChapterInfo)(nil),        // 13: stories.ChapterInfo
-	(*BookmarkInfo)(nil),       // 14: stories.BookmarkInfo
-	(*TotalReactionInfo)(nil),  // 15: stories.TotalReactionInfo
-	(*Paginator)(nil),          // 16: stories.Paginator
-	(*Order)(nil),              // 17: stories.Order
-	(*Story)(nil),              // 18: stories.Story
-	(*Chapter)(nil),            // 19: stories.Chapter
+	(*StorySimple)(nil),        // 13: stories.StorySimple
+	(*ChapterInfo)(nil),        // 14: stories.ChapterInfo
+	(*BookmarkInfo)(nil),       // 15: stories.BookmarkInfo
+	(*TotalReactionInfo)(nil),  // 16: stories.TotalReactionInfo
+	(*Paginator)(nil),          // 17: stories.Paginator
+	(*Order)(nil),              // 18: stories.Order
+	(*Story)(nil),              // 19: stories.Story
+	(*Chapter)(nil),            // 20: stories.Chapter
 }
 var file_commons_proto_depIdxs = []int32{
-	0,  // 0: stories.ChapterInfo.Status:type_name -> stories.StatusType
-	1,  // 1: stories.TotalReactionInfo.Type:type_name -> stories.ReactionType
-	9,  // 2: stories.Story.Category:type_name -> stories.CategoryInfo
-	10, // 3: stories.Story.Language:type_name -> stories.LanguageInfo
-	11, // 4: stories.Story.Writer:type_name -> stories.UserInfo
-	0,  // 5: stories.Story.Status:type_name -> stories.StatusType
-	2,  // 6: stories.Story.Audience:type_name -> stories.AudienceType
-	3,  // 7: stories.Story.Copyright:type_name -> stories.CopyrightType
-	4,  // 8: stories.Story.Clasification:type_name -> stories.ClasificationType
-	5,  // 9: stories.Story.CommentsModeration:type_name -> stories.CommentModerationType
-	15, // 10: stories.Story.TotalReactions:type_name -> stories.TotalReactionInfo
-	13, // 11: stories.Story.Chapters:type_name -> stories.ChapterInfo
-	0,  // 12: stories.Chapter.Status:type_name -> stories.StatusType
-	15, // 13: stories.Chapter.TotalReactions:type_name -> stories.TotalReactionInfo
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	9,  // 0: stories.StoryInfo.Category:type_name -> stories.CategoryInfo
+	11, // 1: stories.StoryInfo.Writer:type_name -> stories.UserInfo
+	0,  // 2: stories.ChapterInfo.Status:type_name -> stories.StatusType
+	1,  // 3: stories.TotalReactionInfo.Type:type_name -> stories.ReactionType
+	9,  // 4: stories.Story.Category:type_name -> stories.CategoryInfo
+	10, // 5: stories.Story.Language:type_name -> stories.LanguageInfo
+	11, // 6: stories.Story.Writer:type_name -> stories.UserInfo
+	0,  // 7: stories.Story.Status:type_name -> stories.StatusType
+	2,  // 8: stories.Story.Audience:type_name -> stories.AudienceType
+	3,  // 9: stories.Story.Copyright:type_name -> stories.CopyrightType
+	4,  // 10: stories.Story.Clasification:type_name -> stories.ClasificationType
+	5,  // 11: stories.Story.CommentsModeration:type_name -> stories.CommentModerationType
+	16, // 12: stories.Story.TotalReactions:type_name -> stories.TotalReactionInfo
+	14, // 13: stories.Story.Chapters:type_name -> stories.ChapterInfo
+	0,  // 14: stories.Chapter.Status:type_name -> stories.StatusType
+	16, // 15: stories.Chapter.TotalReactions:type_name -> stories.TotalReactionInfo
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_commons_proto_init() }
@@ -1891,7 +2004,7 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ChapterInfo); i {
+			switch v := v.(*StorySimple); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1903,7 +2016,7 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BookmarkInfo); i {
+			switch v := v.(*ChapterInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1915,7 +2028,7 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*TotalReactionInfo); i {
+			switch v := v.(*BookmarkInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1927,7 +2040,7 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Paginator); i {
+			switch v := v.(*TotalReactionInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1939,7 +2052,7 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Order); i {
+			switch v := v.(*Paginator); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1951,7 +2064,7 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Story); i {
+			switch v := v.(*Order); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1963,6 +2076,18 @@ func file_commons_proto_init() {
 			}
 		}
 		file_commons_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Story); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_commons_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Chapter); i {
 			case 0:
 				return &v.state
@@ -1981,7 +2106,7 @@ func file_commons_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_commons_proto_rawDesc,
 			NumEnums:      7,
-			NumMessages:   13,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
