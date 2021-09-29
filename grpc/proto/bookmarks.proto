@@ -76,8 +76,7 @@ message BookmarkSort {
     IGNORE = 0;
     STORY_TITLE = 1;
     STORY_WRITER = 2;
-    BOOKMARK_CREATED_AT = 3;
-    BOOKMARK_UPDATED_AT = 4;
+    BOOKMARK_MIX_DATE = 3;
   }
   FieldBy By = 1;
   bool Descendent = 2;
