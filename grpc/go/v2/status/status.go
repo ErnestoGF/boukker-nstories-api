@@ -87,6 +87,8 @@ const (
 	CodeErrorValidateAbstract
 	// CodeErrorValidatePath ...
 	CodeErrorValidatePath
+	// CodeErrorValidateChapterIDRequired ...
+	CodeErrorValidateChapterIDRequired
 
 	// ================ validation list stories ================ //
 
@@ -312,6 +314,12 @@ var (
 		Code:     CodeErrorValidatePath,
 		Message:  "the number the characters max allowed for the path is 150",
 	}
+	// StatusErrorValidateChapterIDRequired ...
+	StatusErrorValidateChapterIDRequired = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateChapterIDRequired,
+		Message:  "chapter id is required",
+	}
 
 	// ================ validation list stories ================ //
 
@@ -369,8 +377,9 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
 	// ================ validation bookmark ================ //
 
-	CodeErrorValidatePath:     StatusErrorValidatePath,
-	CodeErrorValidateAbstract: StatusErrorValidateAbstract,
+	CodeErrorValidatePath:              StatusErrorValidatePath,
+	CodeErrorValidateAbstract:          StatusErrorValidateAbstract,
+	CodeErrorValidateChapterIDRequired: StatusErrorValidateChapterIDRequired,
 
 	// ================ validation list stories ================ //
 
