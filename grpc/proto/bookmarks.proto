@@ -56,7 +56,7 @@ message Bookmark {
   string ID = 1;
   string UserID = 2;
   StorySimple Story = 3;
-  ChapterInfo Chapter = 4;
+  ChapterSimple Chapter = 4;
   string Abstract = 6;
   string Path = 7;
   int64 CreatedAt = 8;
