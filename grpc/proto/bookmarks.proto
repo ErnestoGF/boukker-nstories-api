@@ -10,8 +10,16 @@ import "commons.proto";
 
 // RequestCreateBookmark ...
 message RequestCreateBookmark {
-  string ChapterID = 1;
+  // ID puede ser:
+  // 
+  // ID de una historia el Path tiene q estar vacio. 
+  // ID de un capitulo el Path tiene q tener algun valor.
+  string ID = 1;
   string Abstract = 2;
+  // Path ruta donde apunta el marcador
+  // 
+  // Path vacio indica q el marcador es para leer mas tarde una historia
+  // Path no vacio indica q es un marcador en el texto de un capitulo
   string Path = 3;
 }
 
