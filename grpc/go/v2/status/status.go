@@ -90,6 +90,11 @@ const (
 	// CodeErrorValidateChapterIDRequired ...
 	CodeErrorValidateChapterIDRequired
 
+	// ================ validation readings ================ //
+
+	// CodeErrorValidatePercent ...
+	CodeErrorValidatePercent
+
 	// ================ validation list stories ================ //
 
 	// CodeErrorValidateListStoriesFilterRangePublished valida el rango de fecha
@@ -321,6 +326,15 @@ var (
 		Message:  "chapter id is required",
 	}
 
+	// ================ validation readings ================ //
+
+	// StatusErrorValidateChapterIDRequired ...
+	StatusErrorValidatePercent = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidateChapterIDRequired,
+		Message:  "percente is less than 0 or more than 100",
+	}
+
 	// ================ validation list stories ================ //
 
 	// StatusErrorValidateListStoriesFilterRangePublished ...
@@ -380,6 +394,10 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorValidatePath:              StatusErrorValidatePath,
 	CodeErrorValidateAbstract:          StatusErrorValidateAbstract,
 	CodeErrorValidateChapterIDRequired: StatusErrorValidateChapterIDRequired,
+
+	// ================ validation readings ================ //
+
+	CodeErrorValidatePercent: StatusErrorValidatePercent,
 
 	// ================ validation list stories ================ //
 

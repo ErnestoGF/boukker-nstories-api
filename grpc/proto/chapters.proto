@@ -55,6 +55,8 @@ message ResponseReadChapter {
   repeated StoryInfo RecommendedStories = 5;
 
   BookmarkInfo Bookmark = 8;
+
+  float ScrollDepth = 9;
 }
 
 // ================= info ================= //
