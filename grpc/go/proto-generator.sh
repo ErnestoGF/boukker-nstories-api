@@ -6,4 +6,5 @@ protoc -I=../proto/ \
 ../proto/commons.proto \
 ../proto/chapters.proto \
 ../proto/bookmarks.proto \
+../proto/readings.proto \
 ../proto/stories.proto

@@ -9,6 +9,7 @@ import "google/protobuf/empty.proto";
 import "commons.proto";
 import "chapters.proto";
 import "bookmarks.proto";
+import "readings.proto";
 
 service stories {
   // ================= stories ================= //
@@ -95,6 +96,11 @@ service stories {
 
   // MyBookmarks lista mis marcadores
   rpc MyBookmarks(RequestMyBookmarks) returns (stream ResponseMyBookmarks);
+
+  // ================= reading ================= //
+
+  // SaveReading salva en porciento la cantidad q ha leido un usuario en un capitulo
+  rpc SaveReading(RequestSaveReading) returns (google.protobuf.Empty);
 }
 
 // ================= requests ================= //

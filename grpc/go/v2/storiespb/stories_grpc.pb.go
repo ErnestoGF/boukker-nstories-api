@@ -75,6 +75,8 @@ type StoriesClient interface {
 	RemoveBookmark(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// MyBookmarks lista mis marcadores
 	MyBookmarks(ctx context.Context, in *RequestMyBookmarks, opts ...grpc.CallOption) (Stories_MyBookmarksClient, error)
+	// SaveReading salva en porciento la cantidad q ha leido un usuario en un capitulo
+	SaveReading(ctx context.Context, in *RequestSaveReading, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type storiesClient struct {
@@ -334,6 +336,15 @@ func (x *storiesMyBookmarksClient) Recv() (*ResponseMyBookmarks, error) {
 	return m, nil
 }
 
+func (c *storiesClient) SaveReading(ctx context.Context, in *RequestSaveReading, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/stories.stories/SaveReading", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StoriesServer is the server API for Stories service.
 // All implementations must embed UnimplementedStoriesServer
 // for forward compatibility
@@ -394,6 +405,8 @@ type StoriesServer interface {
 	RemoveBookmark(context.Context, *RequestID) (*emptypb.Empty, error)
 	// MyBookmarks lista mis marcadores
 	MyBookmarks(*RequestMyBookmarks, Stories_MyBookmarksServer) error
+	// SaveReading salva en porciento la cantidad q ha leido un usuario en un capitulo
+	SaveReading(context.Context, *RequestSaveReading) (*emptypb.Empty, error)
 	mustEmbedUnimplementedStoriesServer()
 }
 
@@ -460,6 +473,9 @@ func (UnimplementedStoriesServer) RemoveBookmark(context.Context, *RequestID) (*
 }
 func (UnimplementedStoriesServer) MyBookmarks(*RequestMyBookmarks, Stories_MyBookmarksServer) error {
 	return status.Errorf(codes.Unimplemented, "method MyBookmarks not implemented")
+}
+func (UnimplementedStoriesServer) SaveReading(context.Context, *RequestSaveReading) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveReading not implemented")
 }
 func (UnimplementedStoriesServer) mustEmbedUnimplementedStoriesServer() {}
 
@@ -843,6 +859,24 @@ func (x *storiesMyBookmarksServer) Send(m *ResponseMyBookmarks) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _Stories_SaveReading_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestSaveReading)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).SaveReading(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/SaveReading",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).SaveReading(ctx, req.(*RequestSaveReading))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Stories_ServiceDesc is the grpc.ServiceDesc for Stories service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -917,6 +951,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveBookmark",
 			Handler:    _Stories_RemoveBookmark_Handler,
+		},
+		{
+			MethodName: "SaveReading",
+			Handler:    _Stories_SaveReading_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

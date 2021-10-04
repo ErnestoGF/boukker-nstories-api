@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package stories;
+
+option go_package = "github.com/ErnestoGF/boukker-nstories-api/grpc/go/v2/storiespb";
+
+// ================= requests ================= //
+
+// RequestSaveReading ...
+message RequestSaveReading {
+ string ChapterID = 1;
+ float Percent = 2;
+}
