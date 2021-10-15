@@ -20,6 +20,9 @@ const (
 	// CodeBookmarkNotFound ...
 	CodeBookmarkNotFound
 
+	// CodeReadingNotFound ...
+	CodeReadingNotFound
+
 	// ================ validation story ================ //
 
 	// CodeErrorValidateAudience ...
@@ -133,6 +136,12 @@ var (
 		CodeGRPC: codes.NotFound,
 		Code:     CodeBookmarkNotFound,
 		Message:  "bookmark not found",
+	}
+	// StatusReadingNotFound ...
+	StatusReadingNotFound = &commonsStatus.Status{
+		CodeGRPC: codes.NotFound,
+		Code:     CodeReadingNotFound,
+		Message:  "reading not found",
 	}
 
 	// ================ validation story ================ //
@@ -331,8 +340,8 @@ var (
 	// StatusErrorValidateChapterIDRequired ...
 	StatusErrorValidatePercent = &commonsStatus.Status{
 		CodeGRPC: codes.InvalidArgument,
-		Code:     CodeErrorValidateChapterIDRequired,
-		Message:  "percente is less than 0 or more than 100",
+		Code:     CodeErrorValidatePercent,
+		Message:  "percent is less than 0 or more than 100",
 	}
 
 	// ================ validation list stories ================ //
@@ -353,6 +362,8 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	CodeErrorIDRequired: StatusErrorIDRequired,
 
 	CodeBookmarkNotFound: StatusBookmarkNotFound,
+
+	CodeReadingNotFound: StatusReadingNotFound,
 
 	// ================ validation story ================ //
 
