@@ -51,8 +51,8 @@ message ResponseReadChapter {
   string WriterSummary = 3;
 
   // WriterStories otras historias publicadas por el escritor
-  repeated StoryInfo WriterStories = 4;
-  repeated StoryInfo RecommendedStories = 5;
+  repeated StorySimple WriterStories = 4;
+  repeated StorySimple RecommendedStories = 5;
 
   BookmarkInfo Bookmark = 8;
 
