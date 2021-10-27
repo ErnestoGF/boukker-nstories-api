@@ -377,7 +377,8 @@ type ResponseReadChapter struct {
 	WriterStories      []*StorySimple `protobuf:"bytes,4,rep,name=WriterStories,proto3" json:"WriterStories,omitempty"`
 	RecommendedStories []*StorySimple `protobuf:"bytes,5,rep,name=RecommendedStories,proto3" json:"RecommendedStories,omitempty"`
 	Bookmark           *BookmarkInfo  `protobuf:"bytes,8,opt,name=Bookmark,proto3" json:"Bookmark,omitempty"`
-	ScrollDepth        float32        `protobuf:"fixed32,9,opt,name=ScrollDepth,proto3" json:"ScrollDepth,omitempty"`
+	Reactions          *ReactionInfo  `protobuf:"bytes,9,opt,name=Reactions,proto3" json:"Reactions,omitempty"`
+	ScrollDepth        float32        `protobuf:"fixed32,10,opt,name=ScrollDepth,proto3" json:"ScrollDepth,omitempty"`
 }
 
 func (x *ResponseReadChapter) Reset() {
@@ -454,11 +455,74 @@ func (x *ResponseReadChapter) GetBookmark() *BookmarkInfo {
 	return nil
 }
 
+func (x *ResponseReadChapter) GetReactions() *ReactionInfo {
+	if x != nil {
+		return x.Reactions
+	}
+	return nil
+}
+
 func (x *ResponseReadChapter) GetScrollDepth() float32 {
 	if x != nil {
 		return x.ScrollDepth
 	}
 	return 0
+}
+
+// ReactionInfo ...
+type ReactionInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID   string       `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Type ReactionType `protobuf:"varint,2,opt,name=Type,proto3,enum=stories.ReactionType" json:"Type,omitempty"`
+}
+
+func (x *ReactionInfo) Reset() {
+	*x = ReactionInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_chapters_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ReactionInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReactionInfo) ProtoMessage() {}
+
+func (x *ReactionInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_chapters_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReactionInfo.ProtoReflect.Descriptor instead.
+func (*ReactionInfo) Descriptor() ([]byte, []int) {
+	return file_chapters_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ReactionInfo) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *ReactionInfo) GetType() ReactionType {
+	if x != nil {
+		return x.Type
+	}
+	return ReactionType_RT_IGNORE
 }
 
 var File_chapters_proto protoreflect.FileDescriptor
@@ -498,7 +562,7 @@ var file_chapters_proto_rawDesc = []byte{
 	0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x12, 0x2a, 0x0a, 0x07, 0x43, 0x68, 0x61, 0x70, 0x74,
 	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x69,
 	0x65, 0x73, 0x2e, 0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x52, 0x07, 0x43, 0x68, 0x61, 0x70,
-	0x74, 0x65, 0x72, 0x22, 0xe4, 0x02, 0x0a, 0x13, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x74, 0x65, 0x72, 0x22, 0x99, 0x03, 0x0a, 0x13, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
 	0x52, 0x65, 0x61, 0x64, 0x43, 0x68, 0x61, 0x70, 0x74, 0x65, 0x72, 0x12, 0x24, 0x0a, 0x05, 0x53,
 	0x74, 0x6f, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x73, 0x74, 0x6f,
 	0x72, 0x69, 0x65, 0x73, 0x2e, 0x53, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x05, 0x53, 0x74, 0x6f, 0x72,
@@ -518,9 +582,17 @@ var file_chapters_proto_rawDesc = []byte{
 	0x6f, 0x72, 0x69, 0x65, 0x73, 0x12, 0x31, 0x0a, 0x08, 0x42, 0x6f, 0x6f, 0x6b, 0x6d, 0x61, 0x72,
 	0x6b, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x73, 0x74, 0x6f, 0x72, 0x69, 0x65,
 	0x73, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x6d, 0x61, 0x72, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x08,
-	0x42, 0x6f, 0x6f, 0x6b, 0x6d, 0x61, 0x72, 0x6b, 0x12, 0x20, 0x0a, 0x0b, 0x53, 0x63, 0x72, 0x6f,
-	0x6c, 0x6c, 0x44, 0x65, 0x70, 0x74, 0x68, 0x18, 0x09, 0x20, 0x01, 0x28, 0x02, 0x52, 0x0b, 0x53,
-	0x63, 0x72, 0x6f, 0x6c, 0x6c, 0x44, 0x65, 0x70, 0x74, 0x68, 0x42, 0x40, 0x5a, 0x3e, 0x67, 0x69,
+	0x42, 0x6f, 0x6f, 0x6b, 0x6d, 0x61, 0x72, 0x6b, 0x12, 0x33, 0x0a, 0x09, 0x52, 0x65, 0x61, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x73, 0x74,
+	0x6f, 0x72, 0x69, 0x65, 0x73, 0x2e, 0x52, 0x65, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e,
+	0x66, 0x6f, 0x52, 0x09, 0x52, 0x65, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x20, 0x0a,
+	0x0b, 0x53, 0x63, 0x72, 0x6f, 0x6c, 0x6c, 0x44, 0x65, 0x70, 0x74, 0x68, 0x18, 0x0a, 0x20, 0x01,
+	0x28, 0x02, 0x52, 0x0b, 0x53, 0x63, 0x72, 0x6f, 0x6c, 0x6c, 0x44, 0x65, 0x70, 0x74, 0x68, 0x22,
+	0x49, 0x0a, 0x0c, 0x52, 0x65, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12,
+	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12,
+	0x29, 0x0a, 0x04, 0x54, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x15, 0x2e,
+	0x73, 0x74, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x2e, 0x52, 0x65, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x54, 0x79, 0x70, 0x65, 0x52, 0x04, 0x54, 0x79, 0x70, 0x65, 0x42, 0x40, 0x5a, 0x3e, 0x67, 0x69,
 	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x45, 0x72, 0x6e, 0x65, 0x73, 0x74, 0x6f,
 	0x47, 0x46, 0x2f, 0x62, 0x6f, 0x75, 0x6b, 0x6b, 0x65, 0x72, 0x2d, 0x6e, 0x73, 0x74, 0x6f, 0x72,
 	0x69, 0x65, 0x73, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x72, 0x70, 0x63, 0x2f, 0x67, 0x6f, 0x2f,
@@ -540,7 +612,7 @@ func file_chapters_proto_rawDescGZIP() []byte {
 	return file_chapters_proto_rawDescData
 }
 
-var file_chapters_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_chapters_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_chapters_proto_goTypes = []interface{}{
 	(*RequestWriteChapter)(nil),       // 0: stories.RequestWriteChapter
 	(*RequestEditChapter)(nil),        // 1: stories.RequestEditChapter
@@ -549,27 +621,31 @@ var file_chapters_proto_goTypes = []interface{}{
 	(*RequestRemoveChapterCover)(nil), // 4: stories.RequestRemoveChapterCover
 	(*ResponseRetrieveChapter)(nil),   // 5: stories.ResponseRetrieveChapter
 	(*ResponseReadChapter)(nil),       // 6: stories.ResponseReadChapter
-	(StatusType)(0),                   // 7: stories.StatusType
-	(*Order)(nil),                     // 8: stories.Order
-	(*Chapter)(nil),                   // 9: stories.Chapter
-	(*Story)(nil),                     // 10: stories.Story
-	(*StorySimple)(nil),               // 11: stories.StorySimple
-	(*BookmarkInfo)(nil),              // 12: stories.BookmarkInfo
+	(*ReactionInfo)(nil),              // 7: stories.ReactionInfo
+	(StatusType)(0),                   // 8: stories.StatusType
+	(*Order)(nil),                     // 9: stories.Order
+	(*Chapter)(nil),                   // 10: stories.Chapter
+	(*Story)(nil),                     // 11: stories.Story
+	(*StorySimple)(nil),               // 12: stories.StorySimple
+	(*BookmarkInfo)(nil),              // 13: stories.BookmarkInfo
+	(ReactionType)(0),                 // 14: stories.ReactionType
 }
 var file_chapters_proto_depIdxs = []int32{
-	7,  // 0: stories.RequestWriteChapter.Status:type_name -> stories.StatusType
-	8,  // 1: stories.RequestReorderChapters.Items:type_name -> stories.Order
-	9,  // 2: stories.ResponseRetrieveChapter.Chapter:type_name -> stories.Chapter
-	10, // 3: stories.ResponseReadChapter.Story:type_name -> stories.Story
-	9,  // 4: stories.ResponseReadChapter.Chapter:type_name -> stories.Chapter
-	11, // 5: stories.ResponseReadChapter.WriterStories:type_name -> stories.StorySimple
-	11, // 6: stories.ResponseReadChapter.RecommendedStories:type_name -> stories.StorySimple
-	12, // 7: stories.ResponseReadChapter.Bookmark:type_name -> stories.BookmarkInfo
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	8,  // 0: stories.RequestWriteChapter.Status:type_name -> stories.StatusType
+	9,  // 1: stories.RequestReorderChapters.Items:type_name -> stories.Order
+	10, // 2: stories.ResponseRetrieveChapter.Chapter:type_name -> stories.Chapter
+	11, // 3: stories.ResponseReadChapter.Story:type_name -> stories.Story
+	10, // 4: stories.ResponseReadChapter.Chapter:type_name -> stories.Chapter
+	12, // 5: stories.ResponseReadChapter.WriterStories:type_name -> stories.StorySimple
+	12, // 6: stories.ResponseReadChapter.RecommendedStories:type_name -> stories.StorySimple
+	13, // 7: stories.ResponseReadChapter.Bookmark:type_name -> stories.BookmarkInfo
+	7,  // 8: stories.ResponseReadChapter.Reactions:type_name -> stories.ReactionInfo
+	14, // 9: stories.ReactionInfo.Type:type_name -> stories.ReactionType
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_chapters_proto_init() }
@@ -663,6 +739,18 @@ func file_chapters_proto_init() {
 				return nil
 			}
 		}
+		file_chapters_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ReactionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -670,7 +758,7 @@ func file_chapters_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_chapters_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

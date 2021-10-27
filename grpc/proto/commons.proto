@@ -188,7 +188,13 @@ enum StatusType {
 enum ReactionType {
   RT_IGNORE = 0;
   RT_LIKE = 1;
-  RT_VIEW = 2;
+  RT_DISLIKE = 2;
+  RT_VIEW = 3;
+  RT_READ_HARD_BOOK = 4;
+  RT_SEE_NEFLIX = 5;
+  RT_SEE_CINEMA = 6;
+  RT_SEE_SERIE = 7;
+  RT_SEE_ANIMATION = 8;
 }
 
 // AudienceType ...
