@@ -56,7 +56,7 @@ message ResponseReadChapter {
 
   BookmarkInfo Bookmark = 8;
 
-  ReactionInfo Reactions = 9;
+  repeated ReactionInfo Reactions = 9;
 
   float ScrollDepth = 10;
 }
@@ -66,7 +66,7 @@ message ResponseReadChapter {
 // ReactionInfo ...
 message ReactionInfo {
   string ID = 1;
-  repeated ReactionType Type = 2;
+  ReactionType Type = 2;
 }
 
 // ================= request models ================= //
