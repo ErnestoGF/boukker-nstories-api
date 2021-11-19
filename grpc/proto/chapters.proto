@@ -61,6 +61,12 @@ message ResponseReadChapter {
   float ScrollDepth = 10;
 }
 
+// ResponseRetrieveChapterWithStory ...
+message ResponseRetrieveChapterWithStory {
+  Story Story = 1;
+  Chapter Chapter = 2;
+}
+
 // ================= info ================= //
 
 // ReactionInfo ...

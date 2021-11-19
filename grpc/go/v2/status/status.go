@@ -102,6 +102,11 @@ const (
 
 	// CodeErrorValidateListStoriesFilterRangePublished valida el rango de fecha
 	CodeErrorValidateListStoriesFilterRangePublished
+
+	// ================ validation others ================ //
+
+	// CodeErrorValidatePaginator ...
+	CodeErrorValidatePaginator
 )
 
 var (
@@ -352,6 +357,15 @@ var (
 		Code:     CodeErrorValidateListStoriesFilterRangePublished,
 		Message:  "filter range published at is invalid",
 	}
+
+	// ================ validation others ================ //
+
+	// StatusErrorValidatePaginator ...
+	StatusErrorValidatePaginator = &commonsStatus.Status{
+		CodeGRPC: codes.InvalidArgument,
+		Code:     CodeErrorValidatePaginator,
+		Message:  "Paginator page or limit is-are invalid",
+	}
 )
 var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 
@@ -413,6 +427,10 @@ var codeStatus = map[commonsStatus.Code]*commonsStatus.Status{
 	// ================ validation list stories ================ //
 
 	CodeErrorValidateListStoriesFilterRangePublished: StatusErrorValidateListStoriesFilterRangePublished,
+
+	// ================ validation others ================ //
+
+	CodeErrorValidatePaginator: StatusErrorValidatePaginator,
 }
 
 // FromCode ...

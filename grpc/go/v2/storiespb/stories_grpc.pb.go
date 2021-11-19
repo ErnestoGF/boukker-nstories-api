@@ -67,6 +67,10 @@ type StoriesClient interface {
 	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario
 	// logueado es su escrito.
 	ReadChapter(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseReadChapter, error)
+	// RetrieveChapterWithStory obtine los datos de un capitulo con su historia
+	//
+	// Solo llamadas CallType=SYSTEM
+	RetrieveChapterWithStory(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveChapterWithStory, error)
 	// CreateBookmark marca un capitulo
 	CreateBookmark(ctx context.Context, in *RequestCreateBookmark, opts ...grpc.CallOption) (*ResponseID, error)
 	// EditBookmark edita un marcador
@@ -277,6 +281,15 @@ func (c *storiesClient) ReadChapter(ctx context.Context, in *RequestID, opts ...
 	return out, nil
 }
 
+func (c *storiesClient) RetrieveChapterWithStory(ctx context.Context, in *RequestID, opts ...grpc.CallOption) (*ResponseRetrieveChapterWithStory, error) {
+	out := new(ResponseRetrieveChapterWithStory)
+	err := c.cc.Invoke(ctx, "/stories.stories/RetrieveChapterWithStory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *storiesClient) CreateBookmark(ctx context.Context, in *RequestCreateBookmark, opts ...grpc.CallOption) (*ResponseID, error) {
 	out := new(ResponseID)
 	err := c.cc.Invoke(ctx, "/stories.stories/CreateBookmark", in, out, opts...)
@@ -397,6 +410,10 @@ type StoriesServer interface {
 	// Si el capitulo o la historia NO son publicos solo se retorna si el usuario
 	// logueado es su escrito.
 	ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error)
+	// RetrieveChapterWithStory obtine los datos de un capitulo con su historia
+	//
+	// Solo llamadas CallType=SYSTEM
+	RetrieveChapterWithStory(context.Context, *RequestID) (*ResponseRetrieveChapterWithStory, error)
 	// CreateBookmark marca un capitulo
 	CreateBookmark(context.Context, *RequestCreateBookmark) (*ResponseID, error)
 	// EditBookmark edita un marcador
@@ -461,6 +478,9 @@ func (UnimplementedStoriesServer) RetrieveChapter(context.Context, *RequestID) (
 }
 func (UnimplementedStoriesServer) ReadChapter(context.Context, *RequestID) (*ResponseReadChapter, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadChapter not implemented")
+}
+func (UnimplementedStoriesServer) RetrieveChapterWithStory(context.Context, *RequestID) (*ResponseRetrieveChapterWithStory, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RetrieveChapterWithStory not implemented")
 }
 func (UnimplementedStoriesServer) CreateBookmark(context.Context, *RequestCreateBookmark) (*ResponseID, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBookmark not implemented")
@@ -784,6 +804,24 @@ func _Stories_ReadChapter_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Stories_RetrieveChapterWithStory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StoriesServer).RetrieveChapterWithStory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/stories.stories/RetrieveChapterWithStory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StoriesServer).RetrieveChapterWithStory(ctx, req.(*RequestID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Stories_CreateBookmark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestCreateBookmark)
 	if err := dec(in); err != nil {
@@ -939,6 +977,10 @@ var Stories_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ReadChapter",
 			Handler:    _Stories_ReadChapter_Handler,
+		},
+		{
+			MethodName: "RetrieveChapterWithStory",
+			Handler:    _Stories_RetrieveChapterWithStory_Handler,
 		},
 		{
 			MethodName: "CreateBookmark",

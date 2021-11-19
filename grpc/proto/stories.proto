@@ -83,6 +83,11 @@ service stories {
   // logueado es su escrito.
   rpc ReadChapter(RequestID) returns (ResponseReadChapter);
 
+  // RetrieveChapterWithStory obtine los datos de un capitulo con su historia
+  //
+  // Solo llamadas CallType=SYSTEM
+  rpc RetrieveChapterWithStory(RequestID) returns (ResponseRetrieveChapterWithStory);
+
   // ================= bookmarks ================= //
 
   // CreateBookmark marca un capitulo
